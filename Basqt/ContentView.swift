@@ -1,61 +1,40 @@
 //
 //  ContentView.swift
-//  Basqt
+//  TravelAid
 //
-//  Created by JadaCakes on 3/27/26.
+//  Created by Osman Balci and micki ross on 4/9/26.
+//  Copyright © 2026 Osman Balci and micki ross. All rights reserved.
 //
 
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
+        TabView {
+            Tab("Home", systemImage: "house") {
+                Home()
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
+            Tab("Trips", systemImage: "list.bullet") {
+                //ListofTrips()
             }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+            Tab("Trips on Map", systemImage: "mappin.and.ellipse") {
+                //SearchDatabase()
             }
-        }
+            Tab("Search DB", systemImage: "magnifyingglass") {
+                //SearchByName()
+            }
+            Tab("Search API Weather", systemImage: "cloud.sun.rain") {
+                //SearchByLocation()
+            }
+            Tab("Settings", systemImage: "gear") {
+                Settings()
+            }
+        }   // End of TabView
+        .tabViewStyle(.sidebarAdaptable)
     }
 }
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
 }
+
