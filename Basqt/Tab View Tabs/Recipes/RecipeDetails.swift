@@ -12,7 +12,7 @@ import AVFoundation
 
 fileprivate var parkVisitLocationCoordinate = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 
-struct ParkVisitDetails: View {
+struct RecipeDetails: View {
     
     // Input Parameter
     let parkVisit: ParkVisit
@@ -39,20 +39,23 @@ struct ParkVisitDetails: View {
         
         return AnyView(
             Form {
-                Section(header: Text("National Park Name")) {
+                Section(header: Text("Recipe Name")) {
                     Text(parkVisit.parkName)
                 }
-                Section(header: Text("Date Visited National Park")) {
+                Section(header: Text("Description")) {
                     // ParkVisitDate() is given in ParkVisitDate.swift
                     ParkVisitDate(visitDate: parkVisit.date)
                 }
-                Section(header: Text("My Park Visit Rating")) {
+                Section(header: Text("Calories")) {
                     Text(parkVisit.rating)
                 }
-                Section(header: Text("Park is in States")) {
+                Section(header: Text("Dietary Restrictions")) {
                     Text(parkVisit.states)
                 }
-                Section(header: Text("Notes Taken by Speech to Text Conversion")) {
+                Section(header: Text("Ingredients")) {
+                    Text(parkVisit.speechToTextNotes)
+                }
+                Section(header: Text("Notes")) {
                     Text(parkVisit.speechToTextNotes)
                 }
                 Section(header: Text("Select Map Style"), footer: Text("Park Visit Location Map Provided by Apple Maps").italic()) {

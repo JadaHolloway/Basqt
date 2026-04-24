@@ -23,6 +23,9 @@ struct MainView: View {
             Tab("Search", systemImage: "video") {
                 //VideosList()
             }
+            Tab("Map", systemImage: "video") {
+                //VideosList()
+            }
             Tab("Settings", systemImage: "gear") {
                 Settings()
             }
