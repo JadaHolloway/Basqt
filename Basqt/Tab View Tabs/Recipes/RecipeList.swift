@@ -1,15 +1,16 @@
 //
-//  ParkVisitsList.swift
-//  NationalParks
+//  RecipeList.swift
+//  Basqt
 //
-//  Created by Osman Balci on 3/24/26.
-//  Copyright © 2026 Osman Balci. All rights reserved.
+//  Created by Osman Balci and Micki Ross on 4/26/26.
+//  Copyright © 2026 Osman Balci, Micki Ross, Jada Holloway, Jonathan Hernandez Velasquez. All rights reserved.
 //
+
 
 import SwiftUI
 import SwiftData
 
-struct ParkVisitsList: View {
+struct RecipeList: View {
     
     @Environment(\.modelContext) private var modelContext
     @Query(FetchDescriptor<ParkVisit>(sortBy: [SortDescriptor(\ParkVisit.parkName, order: .forward)])) private var listOfAllParkVisitsInDatabase: [ParkVisit]
@@ -96,8 +97,4 @@ struct ParkVisitsList: View {
          showConfirmation = true
      }
     
-}
-
-#Preview {
-    ParkVisitsList()
 }

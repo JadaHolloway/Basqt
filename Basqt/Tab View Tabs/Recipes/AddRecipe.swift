@@ -16,7 +16,7 @@ fileprivate var audioSession = AVAudioSession()
 fileprivate var audioRecorder: AVAudioRecorder!
 fileprivate var temporaryVoiceRecordingFilename = ""
 
-struct AddParkVisit: View {
+struct AddRecipe: View {
 
     // Enable this view to be dismissed to go back to the previous view
     @Environment(\.dismiss) private var dismiss
