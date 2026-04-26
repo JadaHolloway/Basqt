@@ -1,0 +1,22 @@
+[
+    {
+        "latitude": 37.2296,
+        "longitude": -80.4139,
+        "name": "Kroger",
+        "shop": "supermarket",
+        "street": "1322 S Main St",
+        "city": "Blacksburg",
+        "state": "VA",
+        "openingHours": "06:00-23:00"
+    },
+    {
+        "latitude": 37.2155,
+        "longitude": -80.4284,
+        "name": "Whole Foods Market",
+        "shop": "supermarket",
+        "street": "3707 S Main St",
+        "city": "Blacksburg",
+        "state": "VA",
+        "openingHours": "07:00-22:00"
+    }
+]

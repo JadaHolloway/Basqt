@@ -1,0 +1,28 @@
+[
+    {
+        "productName": "Honey Nut Cheerios",
+        "brands": "General Mills",
+        "categories": "Cereals, Breakfast Cereals, Whole Grain",
+        "ingredientsText": "Whole grain oats, sugar, oat bran, modified corn starch, honey, brown sugar syrup, salt, canola oil",
+        "energyKcal": 180.0,
+        "fat": 2.5,
+        "saturatedFat": 0.5,
+        "carbohydrates": 35.0,
+        "sugars": 12.0,
+        "proteins": 4.0,
+        "salt": 0.27
+    },
+    {
+        "productName": "Organic Whole Milk",
+        "brands": "Horizon",
+        "categories": "Dairy, Milk",
+        "ingredientsText": "Organic whole milk, vitamin D3",
+        "energyKcal": 150.0,
+        "fat": 8.0,
+        "saturatedFat": 5.0,
+        "carbohydrates": 12.0,
+        "sugars": 11.0,
+        "proteins": 8.0,
+        "salt": 0.13
+    }
+]

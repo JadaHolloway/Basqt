@@ -1,0 +1,94 @@
+[
+    {
+        "name": "Weekly Groceries",
+        "dateCreated": "April 25, 2026",
+        "isCompleted": false,
+        "groceryItemStructs": [
+            {
+                "name": "Organic Whole Milk",
+                "brand": "Horizon",
+                "quantity": 1,
+                "calories": 150,
+                "fat": "8g",
+                "carbs": "12g",
+                "protein": "8g",
+                "allergens": "Dairy",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Multigrain Bread",
+                "brand": "",
+                "quantity": 2,
+                "calories": 80,
+                "fat": "1g",
+                "carbs": "15g",
+                "protein": "3g",
+                "allergens": "Gluten",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Sharp Cheddar",
+                "brand": "",
+                "quantity": 1,
+                "calories": 110,
+                "fat": "9g",
+                "carbs": "0g",
+                "protein": "7g",
+                "allergens": "Dairy",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            }
+        ]
+    },
+    {
+        "name": "Party Supplies",
+        "dateCreated": "April 25, 2026",
+        "isCompleted": false,
+        "groceryItemStructs": [
+            {
+                "name": "Paper Plates",
+                "brand": "",
+                "quantity": 1,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Solo Cups",
+                "brand": "Solo",
+                "quantity": 1,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Napkins",
+                "brand": "",
+                "quantity": 2,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            }
+        ]
+    }
+]
