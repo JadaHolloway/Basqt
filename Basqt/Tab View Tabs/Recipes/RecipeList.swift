@@ -13,7 +13,7 @@ import SwiftData
 struct RecipeList: View {
     
     @Environment(\.modelContext) private var modelContext
-    @Query(FetchDescriptor<ParkVisit>(sortBy: [SortDescriptor(\ParkVisit.parkName, order: .forward)])) private var listOfAllParkVisitsInDatabase: [ParkVisit]
+    @Query(FetchDescriptor<Recipe>(sortBy: [SortDescriptor(\Recipe.name, order: .forward)])) private var listOfAllRecipesInDatabase: [Recipe]
     
     @State private var toBeDeleted: IndexSet?
     @State private var showConfirmation = false
@@ -25,12 +25,12 @@ struct RecipeList: View {
         NavigationStack {
             List {
                 // Search Bar: 2 of 4 --> Use filteredParkVisits
-                ForEach(filteredParkVisits) { aParkVisit in
-                    NavigationLink(destination: ParkVisitDetails(parkVisit: aParkVisit, audioPlayer: AudioPlayer())) {
-                        ParkVisitItem(parkVisit: aParkVisit)
+                ForEach(filteredRecipes) { aRecipe in
+                    NavigationLink(destination: RecipeDetails(recipe: aRecipe)) {
+                        RecipeItem(recipe: aRecipe)
                             .alert(isPresented: $showConfirmation) {
                                 Alert(title: Text("Delete Confirmation"),
-                                      message: Text("Are you sure to permanently delete the park visit? It cannot be undone."),
+                                      message: Text("Are you sure to permanently delete the recipe? It cannot be undone."),
                                       primaryButton: .destructive(Text("Delete")) {
                                     /*
                                     'toBeDeleted (IndexSet).first' is an unsafe pointer to the index number of the array
@@ -38,10 +38,10 @@ struct RecipeList: View {
                                     */
                                     if let index = toBeDeleted?.first {
                                        
-                                        let parkVisitToDelete = listOfAllParkVisitsInDatabase[index]
+                                        let recipeToDelete = listOfAllRecipesInDatabase[index]
                                         
                                         // ❎ Delete selected ParkVisit object from the database
-                                        modelContext.delete(parkVisitToDelete)
+                                        modelContext.delete(recipeToDelete)
                                     }
                                     toBeDeleted = nil
                                 }, secondaryButton: .cancel() {
@@ -55,7 +55,7 @@ struct RecipeList: View {
                 
             }   // End of List
             .font(.system(size: 14))
-            .navigationTitle("National Parks Visited")
+            .navigationTitle("Saved Recipes")
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
                 // Place the Edit button on left side of the toolbar
@@ -65,7 +65,7 @@ struct RecipeList: View {
                 
                 // Place the Add (+) button on right side of the toolbar
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: AddParkVisit()) {
+                    NavigationLink(destination: AddRecipe()) {
                         Image(systemName: "plus")
                     }
                 }
@@ -73,20 +73,18 @@ struct RecipeList: View {
             
         }   // End of NavigationStack
         // Search Bar: 3 of 4 --> Attach 'searchable' modifier to the NavigationStack
-        .searchable(text: $searchText, prompt: "Search a Park Visited")
+        .searchable(text: $searchText, prompt: "Search a Recipe by Name or Diet")
         
     }   // End of body var
     
     // Search Bar: 4 of 4 --> Compute filtered results
-    var filteredParkVisits: [ParkVisit] {
+    var filteredRecipes: [Recipe] {
         if searchText.isEmpty {
-            listOfAllParkVisitsInDatabase
+            listOfAllRecipesInDatabase
         } else {
-            listOfAllParkVisitsInDatabase.filter {
-                $0.parkName.localizedStandardContains(searchText) ||
-                $0.states.localizedStandardContains(searchText) ||
-                $0.rating.localizedStandardContains(searchText) ||
-                $0.speechToTextNotes.localizedStandardContains(searchText)
+            listOfAllRecipesInDatabase.filter {
+                $0.name.localizedStandardContains(searchText) ||
+                $0.dietaryTags.localizedStandardContains(searchText)
             }
         }
     }

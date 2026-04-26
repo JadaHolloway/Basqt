@@ -1,163 +1,67 @@
 //
-//  ParkVisitDetails.swift
-//  NationalParks
+//  RecipesDetails.swift
+//  Basqt
 //
-//  Created by Osman Balci on 3/24/26.
-//  Copyright © 2026 Osman Balci. All rights reserved.
+//  Created by Osman Balci and Micki Ross on 4/26/26.
+//  Copyright © 2026 Osman Balci, Micki Ross, Jada Holloway, Jonathan Hernandez Velasquez. All rights reserved.
 //
 
 import SwiftUI
-import MapKit
+//import MapKit
 import AVFoundation
 
-fileprivate var parkVisitLocationCoordinate = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 
 struct RecipeDetails: View {
     
     // Input Parameter
-    let parkVisit: ParkVisit
-    
-    /*
-     ----------------------------------------
-     |   Publish-Subscribe Design Pattern   |
-     ----------------------------------------
-     Subscribe to state changes of the audioPlayer object instantiated from the
-     @Observable class AudioPlayer. Whenever the audioPlayer object state changes
-     refresh (update) this View, which means recompute the body var.
-     */
-    let audioPlayer: AudioPlayer
-    
-    //---------
-    // Map View
-    //---------
-    var mapStyles = ["Standard", "Satellite", "Hybrid", "Globe"]
-    @State private var selectedMapStyleIndex = 0
-    
+    let recipe: Recipe
     var body: some View {
-        
-        parkVisitLocationCoordinate = CLLocationCoordinate2D(latitude: parkVisit.latitude, longitude: parkVisit.longitude)
         
         return AnyView(
             Form {
                 Section(header: Text("Recipe Name")) {
-                    Text(parkVisit.parkName)
+                    Text(recipe.name)
+                }
+                if !recipe.photoFullFilename.isEmpty {
+                    Section(header: Text("Recipe Photo")) {
+                        Image(recipe.photoFullFilename)
+                            .resizable().scaledToFit()
+                    }
                 }
                 Section(header: Text("Description")) {
-                    // ParkVisitDate() is given in ParkVisitDate.swift
-                    ParkVisitDate(visitDate: parkVisit.date)
+                    Text(recipe.briefDescription)
                 }
                 Section(header: Text("Calories")) {
-                    Text(parkVisit.rating)
+                    Text(" \(recipe.calories) kcal")
                 }
-                Section(header: Text("Dietary Restrictions")) {
-                    Text(parkVisit.states)
+                Section(header: Text("Dietary Tags")) {
+                    Text(recipe.dietaryTags)
                 }
                 Section(header: Text("Ingredients")) {
-                    Text(parkVisit.speechToTextNotes)
+                    Text(recipe.ingredients)
                 }
                 Section(header: Text("Notes")) {
-                    Text(parkVisit.speechToTextNotes)
-                }
-                Section(header: Text("Select Map Style"), footer: Text("Park Visit Location Map Provided by Apple Maps").italic()) {
-                    
-                    Picker("Select Map Style", selection: $selectedMapStyleIndex) {
-                        ForEach(0 ..< mapStyles.count, id: \.self) { index in
-                            Text(mapStyles[index])
-                        }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding(.horizontal)
-                    
-                    NavigationLink(destination: ParkVisitLocationOnMap(parkVisit: parkVisit, mapStyleIndex: selectedMapStyleIndex)) {
-                        HStack {
-                            Image(systemName: "mappin.and.ellipse")
-                                .imageScale(.medium)
-                                .font(Font.title.weight(.regular))
-                            Text("Show Park Visit Location on Map")
-                                .font(.system(size: 16))
-                        }
-                    }
-                }
-                if parkVisit.parkVisitPhotos!.count > 0 {
-                    Section(header: Text("Park Visit Photos")) {
-                        NavigationLink(destination: ParkVisitPhotosList(parkVisit: parkVisit)) {
-                            HStack {
-                                Image(systemName: "photo.stack")
-                                    .imageScale(.medium)
-                                    .font(Font.title.weight(.regular))
-                                Text("List Park Visit Photos")
-                                    .font(.system(size: 16))
-                            }
-                        }
-                    }
-                }
-                if parkVisit.parkVisitAudios!.count > 0 {
-                    Section(header: Text("Park Visit Voice Recordings")) {
-                        NavigationLink(destination: ParkVisitAudiosList(parkVisit: parkVisit, audioPlayer: audioPlayer)) {
-                            HStack {
-                                Image(systemName: "waveform")
-                                    .imageScale(.medium)
-                                    .font(Font.title.weight(.regular))
-                                Text("List Park Visit Voice Recordings")
-                                    .font(.system(size: 16))
-                            }
-                        }
+                    if recipe.notes.isEmpty {
+                        Text("No notes added.")
+                    } else {
+                        Text(recipe.notes)
                     }
                 }
             }   // End of Form
                 .font(.system(size: 14))
-                .navigationTitle("National Park Details")
-                .toolbarTitleDisplayMode(.inline)
-                .onDisappear() {
-                    audioPlayer.stopAudioPlayer()
+                .navigationTitle("Recipe Details")
+                .toolbarTitleDisplayMode(.inline).toolbar {
+                    ToolbarItem() {
+                        Button(action: {
+                            print("PDF Export for \(recipe.name)")
+                        }) {
+                            //Image(systemName: doc.text)
+                            //add icon navigate to PDF Kit
+                        }
+                    }
                 }
-            
         )   // End of AnyView
-    }   // End of body var
-    
-    struct ParkVisitLocationOnMap: View {
-        
-        // Input Parameters
-        let parkVisit: ParkVisit
-        let mapStyleIndex: Int
-        
-        @State private var mapCameraPosition: MapCameraPosition = .region(
-            MKCoordinateRegion(
-                // parkVisitLocationCoordinate is a fileprivate var
-                center: parkVisitLocationCoordinate,
-                // 1 degree = 69 miles. 10 degrees = 690 miles
-                span: MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10)
-            )
-        )
-        
-        var body: some View {
-            
-            var mapStyle: MapStyle = .standard
-            
-            switch mapStyleIndex {
-            case 0:
-                mapStyle = MapStyle.standard
-            case 1:
-                mapStyle = MapStyle.imagery     // Satellite
-            case 2:
-                mapStyle = MapStyle.hybrid
-            case 3:
-                mapStyle = MapStyle.hybrid(elevation: .realistic)   // Globe
-            default:
-                print("Map style is out of range!")
-            }
-            
-            return AnyView(
-                Map(position: $mapCameraPosition) {
-                    Marker(parkVisit.parkName, coordinate: parkVisitLocationCoordinate)
-                }
-                .mapStyle(mapStyle)
-                .navigationTitle(parkVisit.parkName)
-                .toolbarTitleDisplayMode(.inline)
-            )
-        }   // End of body var
     }
-    
 }
 
 

@@ -15,7 +15,7 @@ struct LoginView : View {
     // Binding Input Parameter
     @Binding var canLogin: Bool
     //need to change
-    @Query(FetchDescriptor<Photo>(sortBy: [SortDescriptor(\Photo.title, order: .forward)])) private var listOfPhotosInDatabase: [Photo]
+    @Query(FetchDescriptor<Recipe>(sortBy: [SortDescriptor(\Recipe.name, order: .forward)])) private var listOfRecipesInDatabase: [Recipe]
     
     // State Variables
     @State private var enteredPassword = ""
@@ -45,25 +45,30 @@ struct LoginView : View {
                     Text("My Home Screen Photo")
                         .font(.headline)
                         .padding()
-                    
-                    getImageFromDocumentDirectory(filename: listOfPhotosInDatabase[index].fullFilename.components(separatedBy: ".")[0], fileExtension: listOfPhotosInDatabase[index].fullFilename.components(separatedBy: ".")[1], defaultFilename: "ImageUnavailable")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(minWidth: 300, maxWidth: 500, alignment: .center)
-                        .padding(.horizontal)
-                    
+                    if !listOfRecipesInDatabase.isEmpty {
+                        let components = listOfRecipesInDatabase[index].photoFullFilename.components(separatedBy: ".")
+                        let filename = components.first ?? ""
+                        let fileExtension = components.count > 1 ? components.last! : ""
+                        getImageFromDocumentDirectory(filename: filename,fileExtension: fileExtension, defaultFilename: "ImageUnavailable")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(minWidth: 300, maxWidth: 500, alignment: .center)
+                            .padding(.horizontal)
+                        
                         // Subscribe to the timer publisher
-                        .onReceive(timer) { _ in
-                            index += 1
-                            if index > listOfPhotosInDatabase.count - 1 {
-                                index = 0
+                            .onReceive(timer) { _ in
+                                index += 1
+                                if index > listOfRecipesInDatabase.count - 1 {
+                                    index = 0
+                                }
                             }
-                        }
-                    
-                    Text(listOfPhotosInDatabase[index].title)
-                        .font(.system(size: 14, weight: .light, design: .serif))
-                        .padding(.bottom)
-                    
+                        
+                        Text(listOfRecipesInDatabase[index].name)
+                            .font(.system(size: 14, weight: .light, design: .serif))
+                            .padding(.bottom)
+                    } else {
+                        Text("No recipes saved yet.")
+                    }
                     SecureField("Password", text: $enteredPassword)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .frame(width: 300, height: 36)
