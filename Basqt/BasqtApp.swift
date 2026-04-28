@@ -34,10 +34,12 @@ struct BasqtApp: App {
          |   IF the app is being launched for the first time.  |
          -------------------------------------------------------
          */
-        createBasqtDatabase()       // Given in DatabaseCreation.swift
+        createBasqtDatabase()           // Given in DatabaseCreation.swift
+        setUpGroceryQuiz()              // Given in GroceryQuizData.swift
+        createScanFocusRegionImage()    // Given in ScanFocusRegion.swift
 
         // Get User's Permission for Current Location upon App Launch
-        getPermissionForLocation()  // Given in CurrentLocation.swift
+        getPermissionForLocation()      // Given in CurrentLocation.swift
     }
 
     @AppStorage("darkMode") private var darkMode = false

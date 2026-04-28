@@ -18,6 +18,7 @@ struct MainView: View {
                 RecipeList()
             }
             Tab("Scanner", systemImage: "barcode.viewfinder") {
+                ScannerView()
             }
             Tab("Map", systemImage: "map") {
                 NearbyStoresView()

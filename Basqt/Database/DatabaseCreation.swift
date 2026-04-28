@@ -23,14 +23,14 @@ public func createBasqtDatabase() {
                                                 GroceryItem.self, Recipe.self)
     } catch {
         print(error)
-        fatalError("Unable to create ModelContainer: \(error)")
+        return
     }
 
     let modelContext = ModelContext(modelContainer)
 
     /*
      --------------------------------------------------------------------
-     |   Check to see if the database has already been created or not   |
+     |   Check to see if the database has already been created or not   |∫
      --------------------------------------------------------------------
      */
     let fetchDescriptor = FetchDescriptor<GroceryList>()
