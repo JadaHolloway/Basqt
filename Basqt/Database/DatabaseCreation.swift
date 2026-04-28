@@ -22,7 +22,8 @@ public func createBasqtDatabase() {
                                                 OpenStreetStore.self, GroceryList.self,
                                                 GroceryItem.self, Recipe.self)
     } catch {
-        fatalError("Unable to create ModelContainer")
+        print(error)
+        fatalError("Unable to create ModelContainer: \(error)")
     }
 
     let modelContext = ModelContext(modelContainer)
@@ -57,6 +58,7 @@ public func createBasqtDatabase() {
             name: aListStruct.name,
             dateCreated: aListStruct.dateCreated,
             isCompleted: aListStruct.isCompleted,
+            numberItems: aListStruct.numberItems,
             items: []
         )
         modelContext.insert(newList)

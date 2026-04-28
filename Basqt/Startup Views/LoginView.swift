@@ -33,17 +33,22 @@ struct LoginView : View {
     var body: some View {
         NavigationStack {
             // Background View
-            ZStack {
-                Color.gray.opacity(0.1).edgesIgnoringSafeArea(.all)
+            
+            ZStack(alignment: .top) {
+                Rectangle()
+                    .fill(Color(red: 0.14, green: 0.34, blue: 0.14))
+                    .frame(height: 530)
+
+
                 
             // Foreground View
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     Image("Welcome")
-                        .padding()
                     
-                    Text("My Home Screen Photo")
+                    Text("Your Grocery Trip, Optimized.")
                         .font(.headline)
+                        .foregroundColor(.white)
                         .padding()
                     if !listOfRecipesInDatabase.isEmpty {
                         let components = listOfRecipesInDatabase[index].photoFullFilename.components(separatedBy: ".")
@@ -52,7 +57,7 @@ struct LoginView : View {
                         getImageFromDocumentDirectory(filename: filename,fileExtension: fileExtension, defaultFilename: "ImageUnavailable")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(minWidth: 300, maxWidth: 500, alignment: .center)
+                            .frame(minWidth: 300, maxWidth: 450, alignment: .center)
                             .padding(.horizontal)
                         
                         // Subscribe to the timer publisher
@@ -66,13 +71,25 @@ struct LoginView : View {
                         Text(listOfRecipesInDatabase[index].name)
                             .font(.system(size: 14, weight: .light, design: .serif))
                             .padding(.bottom)
-                    } else {
+                            .foregroundColor(.white)
+
+                            
+                    } else
+                    {
                         Text("No recipes saved yet.")
                     }
-                    SecureField("Password", text: $enteredPassword)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .frame(width: 300, height: 36)
-                        .padding()
+                    HStack {
+                        Image(systemName: "lock.fill")
+                            .foregroundColor(.gray)
+                        SecureField("Password", text: $enteredPassword)
+                    }
+                    .padding(.horizontal, 10)
+                    .frame(width: 300, height: 42)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                    )
+                    .padding()
                     
                     HStack {
                         Button("Login") {
@@ -95,19 +112,30 @@ struct LoginView : View {
                                 alertMessage = "Please enter a valid password to unlock the app!"
                             }
                         }
-                        .tint(.blue)
-                        .buttonStyle(.bordered)
-                        .buttonBorderShape(.capsule)
+                        .frame(width: 170, height: 50)
+                        .tint(Color(red: 0.14, green: 0.34, blue: 0.14))
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color(red: 0.14, green: 0.34, blue: 0.14))
+                        )
+                        .buttonStyle(.borderedProminent)
                         .padding()
+                        .foregroundColor(.white)
                         
                         if UserDefaults.standard.string(forKey: "SecurityQuestion") != nil {
                             NavigationLink(destination: ResetPassword()) {
                                 Text("Forgot Password")
                             }
-                            .tint(.blue)
+                            .frame(width: 170, height: 50)
+                            .tint(Color(.gray))
+                            .background(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .fill(Color.gray)
+                            )
+                            .buttonStyle(.borderedProminent)
+                            .foregroundColor(.white)
                             .buttonStyle(.bordered)
                             .buttonBorderShape(.capsule)
-                            .padding()
                         }
                     }   // End of HStack
                     
@@ -138,9 +166,16 @@ struct LoginView : View {
                                 }
                             }
                         }
-                        .tint(.blue)
+                        .frame(width: 220, height: 50)
+                        .tint(Color(.gray))
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color.gray)
+                        )
                         .buttonStyle(.bordered)
                         .buttonBorderShape(.capsule)
+                        .buttonStyle(.borderedProminent)
+                        .foregroundColor(.white)
                         
                         HStack {
                             Image(systemName: "faceid")

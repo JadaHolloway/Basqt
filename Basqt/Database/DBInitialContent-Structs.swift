@@ -42,6 +42,7 @@ struct GroceryListStruct: Decodable {
     var name: String
     var dateCreated: String
     var isCompleted: Bool
+    var numberItems: String
     var groceryItemStructs: [GroceryItemStruct]
 }
 

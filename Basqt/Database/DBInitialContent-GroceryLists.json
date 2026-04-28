@@ -3,6 +3,7 @@
         "name": "Weekly Groceries",
         "dateCreated": "April 25, 2026",
         "isCompleted": false,
+        "numberItems": "3",
         "groceryItemStructs": [
             {
                 "name": "Organic Whole Milk",
@@ -49,6 +50,7 @@
         "name": "Party Supplies",
         "dateCreated": "April 25, 2026",
         "isCompleted": false,
+        "numberItems": "3",
         "groceryItemStructs": [
             {
                 "name": "Paper Plates",

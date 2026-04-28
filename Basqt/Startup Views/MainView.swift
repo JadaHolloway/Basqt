@@ -13,13 +13,13 @@ struct MainView: View {
         TabView {
             //change these icons
             Tab("Home", systemImage: "photo") {
-                RecipeList()
+                HomeView()
             }
             Tab("Grocery List", systemImage: "square.grid.3x3") {
                 //PhotosGrid()
             }
-            Tab("Recipes", systemImage: "mappin.and.ellipse") {
-                //Maps()
+            Tab("Recipes", systemImage: "list.clipboard") {
+                RecipeList()
             }
             Tab("Search", systemImage: "video") {
                 //VideosList()

@@ -116,14 +116,16 @@ class GroceryList {
     var name: String
     var dateCreated: String
     var isCompleted: Bool
+    var numberItems: String
 
     // Relationships
     @Relationship(deleteRule: .cascade) var items: [GroceryItem]?
 
-    init(name: String, dateCreated: String, isCompleted: Bool, items: [GroceryItem]? = nil) {
+    init(name: String, dateCreated: String, isCompleted: Bool, numberItems: String, items: [GroceryItem]? = nil) {
         self.name = name
         self.dateCreated = dateCreated
         self.isCompleted = isCompleted
+        self.numberItems = numberItems
         self.items = items
     }
 }
