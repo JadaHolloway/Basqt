@@ -7,11 +7,17 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct Settings: View {
-    
+
     @AppStorage("darkMode") private var darkMode = false
-    
+    @AppStorage("homePagePhotoFileName") private var homePagePhotoFileName = ""
+
+    @State private var pickedUIImage: UIImage? = nil
+    @State private var showImagePicker = false
+    @State private var useCamera = false
+
     @State private var showEnteredValues = false
     @State private var passwordEntered = ""
     @State private var passwordVerified = ""
@@ -169,7 +175,49 @@ struct Settings: View {
                         Spacer()
                     }
                 }
-                
+                Section(header: Text("Home Page Image")) {
+                    if homePagePhotoFileName.isEmpty {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color(.systemGray5))
+                                .frame(height: 160)
+                            VStack(spacing: 6) {
+                                Image(systemName: "photo")
+                                    .font(.system(size: 36))
+                                    .foregroundColor(.gray)
+                                Text("No photo set")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    } else {
+                        getImageFromDocumentDirectory(filename: "homePagePhoto", fileExtension: "jpg", defaultFilename: "ImageUnavailable")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 160)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                    }
+                    HStack {
+                        Spacer()
+                        Button("Camera") {
+                            useCamera = true
+                            showImagePicker = true
+                        }
+                        .tint(.blue)
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.capsule)
+                        Spacer()
+                        Button("Photo Library") {
+                            useCamera = false
+                            showImagePicker = true
+                        }
+                        .tint(.blue)
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.capsule)
+                        Spacer()
+                    }
+                }
+
             }   // End of Form
             // Set font and size for the whole Form content
             .font(.system(size: 14))
@@ -181,8 +229,21 @@ struct Settings: View {
                 Text(alertMessage)
             })
             
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(uiImage: $pickedUIImage,
+                        sourceType: useCamera ? .camera : .photoLibrary,
+                        imageWidth: 500.0, imageHeight: 500.0)
+        }
+        .onChange(of: pickedUIImage) {
+            if let uiImage = pickedUIImage,
+               let jpegData = uiImage.jpegData(compressionQuality: 1.0) {
+                let fileUrl = documentDirectory.appendingPathComponent("homePagePhoto.jpg")
+                try? jpegData.write(to: fileUrl)
+                homePagePhotoFileName = "homePagePhoto.jpg"
+            }
+        }
         }   // End of NavigationStack
-        
+
     }   // End of body var
     
 }

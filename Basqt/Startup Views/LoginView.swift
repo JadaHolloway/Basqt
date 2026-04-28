@@ -8,27 +8,17 @@
 
 import SwiftUI
 import SwiftData
-internal import Combine
 
 struct LoginView : View {
-    
+
     // Binding Input Parameter
     @Binding var canLogin: Bool
-    //need to change
-    @Query(FetchDescriptor<Recipe>(sortBy: [SortDescriptor(\Recipe.name, order: .forward)])) private var listOfRecipesInDatabase: [Recipe]
-    
+
+    @AppStorage("homePagePhotoFileName") private var homePagePhotoFileName = ""
+
     // State Variables
     @State private var enteredPassword = ""
     @State private var showAlertMessage = false
-    
-    @State private var index = 0
-    /*
-     Create a timer publisher that fires 'every' 3 seconds and updates the view.
-     It runs 'on' the '.main' runloop so that it can update the view.
-     It runs 'in' the '.common' mode so that it can run alongside other
-     common events such as when the ScrollView is being scrolled.
-     */
-    @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
     var body: some View {
         NavigationStack {
@@ -45,38 +35,34 @@ struct LoginView : View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     Image("Welcome")
-                    
+
                     Text("Your Grocery Trip, Optimized.")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
-                    if !listOfRecipesInDatabase.isEmpty {
-                        let components = listOfRecipesInDatabase[index].photoFullFilename.components(separatedBy: ".")
-                        let filename = components.first ?? ""
-                        let fileExtension = components.count > 1 ? components.last! : ""
-                        getImageFromDocumentDirectory(filename: filename,fileExtension: fileExtension, defaultFilename: "ImageUnavailable")
+
+                    if homePagePhotoFileName.isEmpty {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color(.systemGray5))
+                                .frame(width: 300, height: 200)
+                            VStack(spacing: 8) {
+                                Image(systemName: "photo")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(.gray)
+                                Text("Set a home page photo in Settings")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        .padding()
+                    } else {
+                        getImageFromDocumentDirectory(filename: "homePagePhoto", fileExtension: "jpg", defaultFilename: "ImageUnavailable")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(minWidth: 300, maxWidth: 450, alignment: .center)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                             .padding(.horizontal)
-                        
-                        // Subscribe to the timer publisher
-                            .onReceive(timer) { _ in
-                                index += 1
-                                if index > listOfRecipesInDatabase.count - 1 {
-                                    index = 0
-                                }
-                            }
-                        
-                        Text(listOfRecipesInDatabase[index].name)
-                            .font(.system(size: 14, weight: .light, design: .serif))
-                            .padding(.bottom)
-                            .foregroundColor(.white)
-
-                            
-                    } else
-                    {
-                        Text("No recipes saved yet.")
                     }
                     HStack {
                         Image(systemName: "lock.fill")
@@ -188,13 +174,6 @@ struct LoginView : View {
                     }
                 }   // End of VStack
             }   // End of ScrollView
-            .onAppear() {
-                startTimer()
-            }
-            .onDisappear() {
-                stopTimer()
-            }
-                
             }   // End of ZStack
             .navigationBarHidden(true)
             
@@ -206,14 +185,6 @@ struct LoginView : View {
             })
         
     }   // End of body var
-    
-    func startTimer() {
-        timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-    }
-    
-    func stopTimer() {
-        timer.upstream.connect().cancel()
-    }
     
 }
 

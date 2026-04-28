@@ -79,7 +79,6 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
-				ORGANIZATIONNAME = "Micki, Jada, Jonathan";
 				TargetAttributes = {
 					95096B142F77188400C2FFFF = {
 						CreatedOnToolsVersion = 26.2;
@@ -254,6 +253,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Basqt needs camera access so you can set your home page photo.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Basqt uses your location to find grocery stores near you.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Basqt needs photo library access so you can set your home page photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -285,6 +287,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Basqt needs camera access so you can set your home page photo.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Basqt uses your location to find grocery stores near you.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Basqt needs photo library access so you can set your home page photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

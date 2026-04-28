@@ -11,23 +11,21 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         TabView {
-            //change these icons
-            Tab("Home", systemImage: "photo") {
+            Tab("Home", systemImage: "house") {
                 HomeView()
-            }
-            Tab("Grocery List", systemImage: "square.grid.3x3") {
-                //PhotosGrid()
             }
             Tab("Recipes", systemImage: "list.clipboard") {
                 RecipeList()
             }
-            Tab("Search", systemImage: "video") {
-                //VideosList()
+            Tab("Scanner", systemImage: "barcode.viewfinder") {
             }
-            Tab("Map", systemImage: "video") {
-                //VideosList()
+            Tab("Map", systemImage: "map") {
+                NearbyStoresView()
             }
-            Tab("Settings", systemImage: "gear") {
+            Tab("Game", systemImage: "gamecontroller") {
+                GameView()
+            }
+            Tab("Profile", systemImage: "person.circle") {
                 Settings()
             }
         }   // End of TabView
