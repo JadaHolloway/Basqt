@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Basqt needs to access your camera so that you can take a photo!</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Face ID or Touch ID is used to authenticate you as the real user of the app!</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Basqt needs to determine your location to add to picked or taken photos!</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Basqt needs to use the microphone to record your voice while taking a video</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Basqt needs to access your Photos library so that you can pick a photo!</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Basqt needs to add taken photos or videos to Photo Libarary</string>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIImageName</key>
+		<string>LaunchImage</string>
+	</dict>
+</dict>
+</plist>

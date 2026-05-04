@@ -10,9 +10,22 @@
 		95096B152F77188400C2FFFF /* Basqt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Basqt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		251455B12FA9575400BE5F39 /* Exceptions for "Basqt" folder in "Basqt" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 95096B142F77188400C2FFFF /* Basqt */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		95096B172F77188400C2FFFF /* Basqt */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				251455B12FA9575400BE5F39 /* Exceptions for "Basqt" folder in "Basqt" target */,
+			);
 			path = Basqt;
 			sourceTree = "<group>";
 		};
@@ -253,12 +266,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Basqt/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Basqt needs camera access so you can set your home page photo.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Face ID or Touch ID is used to authenticate you as the real user of the app!";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Basqt uses your location to find grocery stores near you.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Basqt needs to use the microphone to record your voice while taking a video";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Basqt needs photo library access so you can set your home page photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -287,12 +302,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Basqt/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Basqt needs camera access so you can set your home page photo.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Face ID or Touch ID is used to authenticate you as the real user of the app!";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Basqt uses your location to find grocery stores near you.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Basqt needs to use the microphone to record your voice while taking a video";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Basqt needs photo library access so you can set your home page photo.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
