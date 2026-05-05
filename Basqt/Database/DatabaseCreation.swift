@@ -158,7 +158,9 @@ public func createBasqtDatabase() {
             street: aStoreStruct.street,
             city: aStoreStruct.city,
             state: aStoreStruct.state,
-            openingHours: aStoreStruct.openingHours
+            openingHours: aStoreStruct.openingHours,
+            phoneNumber: aStoreStruct.phoneNumber,
+            websiteURL: aStoreStruct.websiteURL
         )
         modelContext.insert(newStore)
     }   // End of for loop

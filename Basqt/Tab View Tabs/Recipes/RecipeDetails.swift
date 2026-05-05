@@ -39,6 +39,14 @@ struct RecipeDetails: View {
                 }
                 Section(header: Text("Ingredients")) {
                     Text(recipe.ingredients)
+                    Button(action: {
+                        UIPasteboard.general.string = recipe.ingredients
+                    }) {
+                        HStack {
+                            Image(systemName: "document.on.clipboard")
+                            Text("Copy Ingredients")
+                        }.foregroundColor(.blue)
+                    }
                 }
                 Section(header: Text("Notes")) {
                     if recipe.notes.isEmpty {

@@ -7,7 +7,9 @@
         "street": "1322 S Main St",
         "city": "Blacksburg",
         "state": "VA",
-        "openingHours": "06:00-23:00"
+        "openingHours": "06:00-23:00",
+        "phone": "+1-540-555-1234",
+        "website": "https://www.kroger.com"
     },
     {
         "latitude": 37.2155,
@@ -17,6 +19,8 @@
         "street": "3707 S Main St",
         "city": "Blacksburg",
         "state": "VA",
-        "openingHours": "07:00-22:00"
+        "openingHours": "07:00-22:00",
+        "phone": "+1-844-936-8255",
+        "website": "https://www.wholefoodsmarket.com"
     }
 ]

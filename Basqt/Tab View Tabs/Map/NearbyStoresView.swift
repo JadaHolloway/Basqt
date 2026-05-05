@@ -26,6 +26,8 @@ struct NearbyStoresView: View {
     @State private var nearbyStores = [StoreStruct]()
     @State private var userLocation = getUsersCurrentLocation()   // Given in CurrentLocation.swift
 
+    @State private var selectedStore: UUID?
+    
     @State private var mapCameraPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: getUsersCurrentLocation(),
@@ -36,7 +38,7 @@ struct NearbyStoresView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-
+                
                 // Search bar
                 HStack {
                     Image(systemName: "magnifyingglass")
@@ -50,7 +52,7 @@ struct NearbyStoresView: View {
                 .padding(.horizontal, 14)
                 .padding(.top, 8)
                 .padding(.bottom, 6)
-
+                
                 // Map with store pins
                 Map(position: $mapCameraPosition) {
                     Marker("You", coordinate: userLocation)
@@ -65,7 +67,43 @@ struct NearbyStoresView: View {
                 }
                 .mapStyle(.standard)
                 .frame(height: 210)
-
+                
+                if !storeAnnotations.isEmpty {
+                    ScrollView(.horizontal, showsIndicators: false) { HStack(spacing: 15) {
+                        ForEach(storeAnnotations) { loc in
+                            Button(action: {
+                                //Set the selected ID
+                                selectedStore = loc.store.id
+                                //Automatically move the map camera to center on the tapped store
+                                mapCameraPosition = .region( MKCoordinateRegion(
+                                    center: loc.coordinate,
+                                    span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
+                                )
+                                )
+                            }) {
+               VStack { Image(systemName: "storefront.fill") .resizable()
+                        .aspectRatio(contentMode: .fit)
+                       .frame(height: 30.0)
+                  .foregroundColor(loc.store.id == selectedStore ? .red : .blue)
+                   Text(loc.store.name) .font(.system(size: 12, weight: .medium))
+                      .fixedSize()
+                      .foregroundColor(loc.store.id == selectedStore ? .red : .primary)
+                      .multilineTextAlignment(.center)
+                    Text(distanceString(to: loc.store))
+                       .font(.system(size: 10))
+                        .foregroundColor(.secondary) }
+                        .padding(10)
+                       .background(Color(.systemGray6))
+                       .cornerRadius(10)
+                            }
+                            //End of Button
+                        } //End of HStack
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10) }
+                    }//End of ScrollView
+                }
+                
+                
                 // Store list
                 List {
                     Section(header: Text("Stores Within 5 KM")) {
@@ -74,8 +112,9 @@ struct NearbyStoresView: View {
                                 .font(.system(size: 13))
                                 .foregroundColor(.secondary)
                         } else {
-                            ForEach(storeAnnotations) { loc in
+         ForEach(storeAnnotations) { loc in NavigationLink(destination: StoreDetails(store: getOpenStreetStore(from: loc.store))) {
                                 storeRow(for: loc.store)
+                            }
                             }
                         }
                     }
@@ -147,7 +186,9 @@ struct NearbyStoresView: View {
                 street: store.street,
                 city: store.city,
                 state: store.state,
-                openingHours: store.openingHours
+                openingHours: store.openingHours,
+                phoneNumber: store.phoneNumber,
+                websiteURL: store.websiteURL
             )
             modelContext.insert(newFavorite)
         }
@@ -159,7 +200,20 @@ struct NearbyStoresView: View {
         mapItem.name = store.name
         mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
     }
-
+    func getOpenStreetStore(from store: StoreStruct) -> OpenStreetStore {
+            return OpenStreetStore(
+                latitude: store.latitude,
+                longitude: store.longitude,
+                name: store.name,
+                shop: store.shop,
+                street: store.street,
+                city: store.city,
+                state: store.state,
+                openingHours: store.openingHours,
+                phoneNumber: store.phoneNumber,
+                websiteURL: store.websiteURL
+            )
+    }
     // MARK: - Store Row
 
     @ViewBuilder

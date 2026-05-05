@@ -91,10 +91,13 @@ class OpenStreetStore {
     var city: String
     var state: String
     var openingHours: String
-
+    var phoneNumber: String
+    var websiteURL: String
+    
+    
     init(latitude: Double, longitude: Double, name: String,
          shop: String, street: String, city: String,
-         state: String, openingHours: String) {
+         state: String, openingHours: String, phoneNumber: String, websiteURL: String) {
         self.latitude = latitude
         self.longitude = longitude
         self.name = name
@@ -103,6 +106,8 @@ class OpenStreetStore {
         self.city = city
         self.state = state
         self.openingHours = openingHours
+        self.phoneNumber = phoneNumber
+        self.websiteURL = websiteURL
     }
 }
 

@@ -19,6 +19,8 @@ struct StoreStruct: Identifiable {
     var openingHours: String
     var latitude: Double
     var longitude: Double
+    var phoneNumber: String
+    var websiteURL: String
 }
 
 // Global array accessible in all Swift files
@@ -80,11 +82,13 @@ public func getNearbyStores(latitude: Double, longitude: Double) {
                 let city         = tags["addr:city"]      as? String ?? ""
                 let state        = tags["addr:state"]     as? String ?? ""
                 let openingHours = tags["opening_hours"]  as? String ?? ""
-
+                let phone = tags["phone"] as? String ?? tags["contact:phone"] as? String ?? ""
+                let website = tags["website"] as? String ?? tags["contact:website"] as? String ?? ""
+                
                 let store = StoreStruct(name: name, shop: shop, street: street,
                                         city: city, state: state,
                                         openingHours: openingHours,
-                                        latitude: lat, longitude: lon)
+                                        latitude: lat, longitude: lon, phoneNumber: phone,websiteURL: website)
                 nearbyStoresList.append(store)
             }
 

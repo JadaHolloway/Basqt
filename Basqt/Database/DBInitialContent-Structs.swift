@@ -116,6 +116,8 @@ struct FavoriteStoreStruct: Decodable {
     var city: String
     var state: String
     var openingHours: String
+    var phoneNumber: String
+    var websiteURL: String
 }
 
 /*
