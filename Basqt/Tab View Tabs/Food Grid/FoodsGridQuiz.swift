@@ -1,10 +1,11 @@
 //
 //  FlagsGridQuiz.swift
-//  Countries
+//  Basqt
 //
 //  Created by Osman Balci and Micki Ross on 5/5/26.
 //  Copyright © 2026 Osman Balci, Micki Ross, Jada Holloway, Jonathan Hernandez Velasquez. All rights reserved.
 //
+
 import SwiftUI
 
 // Randomly shuffle quizStructList
@@ -13,48 +14,70 @@ fileprivate var selectedQuizStruct = shuffledQuizStructList[0]
 
 struct FoodsGridQuiz: View {
 
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
     @State private var showAlertMessage = false
-    
+    @State private var targetQuizStruct = shuffledQuizStructList[0]
+    @State private var questionIndex = 0
+
     // Fit as many images per row as possible with minimum image width of 100 points each.
     // spacing defines spacing between columns
     let columns = [ GridItem(.adaptive(minimum: 100), spacing: 3) ]
-    
+
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Guess which country's flag is it?\nTap the flag to find out if your guess is correct.")
-                    .font(.system(size: 18, weight: .light, design: .serif))
+                Text("Find the food product:")
+                    .font(.system(size: 16, weight: .light, design: .serif))
                     .italic()
+
+                Text(targetQuizStruct.productName)
+                    .font(.system(size: 22, weight: .bold, design: .serif))
                     .multilineTextAlignment(.center)
+                    .padding(.bottom, 2)
+
                 ScrollView {
                     // spacing defines spacing between rows
                     LazyVGrid(columns: columns, spacing: 3) {
-                        // 🔴 Specifying id: \.self is critically important to prevent photos being listed as out of order
                         ForEach(shuffledQuizStructList, id: \.self) { aQuizStruct in
 
-                            // Country flag image can be obtained as PNG: "https://flagcdn.com/w320/cca2-in-Lowercase.png"
-                            getImageFromUrl(url: "https://flagcdn.com/w320/\(aQuizStruct.cca2.lowercased()).png", defaultFilename: "ImageUnavailable")
-                                .resizable()
-                                .scaledToFit()
-                                .onTapGesture {
-                                    alertTitle = aQuizStruct.countryCommonName
-                                    alertMessage = aQuizStruct.capitalCityName
-                                    showAlertMessage = true
+                            // Food image from Open Food Facts:
+                            // https://images.openfoodfacts.org/images/products/{barcode}/front_en.display.jpg
+                            getImageFromUrl(
+                                url: "https://images.openfoodfacts.org/images/products/\(aQuizStruct.barcode)/front_en.display.jpg",
+                                defaultFilename: "ImageUnavailable"
+                            )
+                            .resizable()
+                            .scaledToFit()
+                            .onTapGesture {
+                                if aQuizStruct.barcode == targetQuizStruct.barcode {
+                                    alertTitle = " Correct!"
+                                    alertMessage = "\(aQuizStruct.productName)"
+                                } else {
+                                    alertTitle = "Wrong!"
+                                    alertMessage = "That is \(aQuizStruct.productName).\nYou were looking for \(targetQuizStruct.productName)."
                                 }
+                                showAlertMessage = true
+                            }
                         }
                     }   // End of LazyVGrid
                     .padding()
-                    
+
                 }   // End of ScrollView
-                
+
             }   // End of VStack
-            .navigationTitle("Country Flags Grid Quiz")
+            .navigationTitle("Food Products Grid Quiz")
             .toolbarTitleDisplayMode(.inline)
             .alert(alertTitle, isPresented: $showAlertMessage, actions: {
-                Button("OK") {}
+                Button("Next Question") {
+                    // Advance to next product, wrapping around
+                    questionIndex = (questionIndex + 1) % shuffledQuizStructList.count
+                    targetQuizStruct = shuffledQuizStructList[questionIndex]
+                }
             }, message: {
                 Text(alertMessage)
             })
         }
     }
 }
+

@@ -8,8 +8,8 @@
         "city": "Blacksburg",
         "state": "VA",
         "openingHours": "06:00-23:00",
-        "phone": "+1-540-555-1234",
-        "website": "https://www.kroger.com"
+        "phoneNumber": "+1-540-555-1234",
+        "websiteURL": "https://www.kroger.com"
     },
     {
         "latitude": 37.2155,
@@ -20,7 +20,7 @@
         "city": "Blacksburg",
         "state": "VA",
         "openingHours": "07:00-22:00",
-        "phone": "+1-844-936-8255",
-        "website": "https://www.wholefoodsmarket.com"
+        "phoneNumber": "+1-844-936-8255",
+        "websiteURL": "https://www.wholefoodsmarket.com"
     }
 ]

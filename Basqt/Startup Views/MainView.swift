@@ -27,10 +27,13 @@ struct MainView: View {
                 GameView()
             }
             Tab("Foods with Colors", systemImage: "fork.knife.circle") {
-                FoodSlide()
+                //FoodSlide()
             }
-            Tab("Food Grid", systemImage: "fork.knife.circle.fill") {
+            Tab("Food Grid", systemImage: "square.grid.3x3") {
                 FoodsGridQuiz()
+            }
+            Tab("10 Minute Recipe Videos", systemImage: "video") {
+                VideosList()
             }
             Tab("Profile", systemImage: "person.circle") {
                 Settings()

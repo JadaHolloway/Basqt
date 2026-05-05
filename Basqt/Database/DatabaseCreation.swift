@@ -9,7 +9,11 @@
 import SwiftUI
 import SwiftData
 
+var videoStructList         = [Video]()
+
 public func createBasqtDatabase() {
+    videoStructList         = decodeJsonFileIntoArrayOfStructs(fullFilename: "VideosData.json", fileLocation: "Main Bundle")
+    videoStructList = videoStructList.sorted(by: { $0.title < $1.title })
     /*
      ------------------------------------------------
      |   Create Model Container and Model Context   |
@@ -174,6 +178,8 @@ public func createBasqtDatabase() {
      automatically refreshed upon State change in the UI or after a certain time period.
      But sometimes, you can manually save the database changes just to be sure.
      */
+
+
     do {
         try modelContext.save()
     } catch {
