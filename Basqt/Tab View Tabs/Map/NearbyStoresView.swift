@@ -53,10 +53,9 @@ struct NearbyStoresView: View {
                 .padding(.top, 8)
                 .padding(.bottom, 6)
                 
-                // Map with store pins
                 Map(position: $mapCameraPosition) {
-                    Marker("You", coordinate: userLocation)
-                        .tint(.blue)
+                    UserAnnotation()
+                    
                     ForEach(storeAnnotations) { loc in
                         Annotation(loc.store.name, coordinate: loc.coordinate) {
                             Image(systemName: "mappin.circle.fill")
@@ -132,6 +131,17 @@ struct NearbyStoresView: View {
                 }
             }
             .onAppear {
+
+                let freshLocation = getUsersCurrentLocation()
+                userLocation = freshLocation
+                
+                mapCameraPosition = .region(
+                    MKCoordinateRegion(
+                        center: freshLocation,
+                        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                    )
+                )
+                
                 loadNearbyStores()
             }
         }   // End of NavigationStack

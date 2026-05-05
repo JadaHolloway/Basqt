@@ -22,7 +22,7 @@ let locationManager = CLLocationManager()
  |   Get User's Permission for Current Location Determination   |
  ================================================================
 */
-public func getPermissionForLocation() {
+public func getPermissionForLocation()  {
     /*
      We need to obtain the user's permission to access his/her location much before we need it.
      Doing this in the getUsersCurrentLocation() function below would be too late since it

@@ -22,19 +22,7 @@ struct HomeView: View {
                     .font(.largeTitle)
                     .bold()
                     .padding(.top, 20)
-
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(red: 0.14, green: 0.34, blue: 0.14).opacity(0.9))
-                    .frame(height: 120)
-                    .overlay(
-                        Text("72° F")
-                            .font(.system(size: 50, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding(.leading, 10)
-                            .padding(.top, 10),
-                        alignment: .topLeading
-                    )
-                    .padding(.horizontal, 20)
+                WeatherCardView()
 
                 Text("YOUR GROCERY LISTS")
                     .font(.system(size: 17))

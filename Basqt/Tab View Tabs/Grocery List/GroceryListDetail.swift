@@ -8,12 +8,15 @@
 
 import SwiftUI
 import SwiftData
+import Translation
 
 struct GroceryListDetail: View {
 
     @Environment(\.modelContext) private var modelContext
     var groceryList: GroceryList
     @State private var showAddItem = false
+    @State private var showTranslation = false
+    @State private var textToTranslate = ""
 
     var body: some View {
         let items = groceryList.items ?? []
@@ -67,9 +70,30 @@ struct GroceryListDetail: View {
         .listStyle(.insetGrouped)
         .navigationTitle(groceryList.name)
         .toolbarTitleDisplayMode(.inline)
+        .translationPresentation(isPresented: $showTranslation, text: textToTranslate)
+
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 EditButton()
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    let items = groceryList.items ?? []
+                    // Build a readable list of all grocery items to translate
+                    textToTranslate = items.map { item in
+                        var line = item.name
+                        if !item.brand.isEmpty { line += " (\(item.brand))" }
+                        if item.quantity > 1   { line += " ×\(item.quantity)" }
+                        return line
+                    }.joined(separator: "\n")
+                    
+                    if textToTranslate.isEmpty {
+                        textToTranslate = groceryList.name
+                    }
+                    showTranslation = true
+                }) {
+                    Image(systemName: "translate")
+                }
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: { showAddItem = true }) {

@@ -8,10 +8,12 @@
 
 import SwiftUI
 import SwiftData
-
+import Translation
 struct GroceryItemDetail: View {
 
     var item: GroceryItem
+    @State private var showTranslation = false
+    @State private var textToTranslate = ""
 
     var body: some View {
         Form {
@@ -53,14 +55,18 @@ struct GroceryItemDetail: View {
         .font(.system(size: 14))
         .navigationTitle(item.name)
         .toolbarTitleDisplayMode(.inline)
-    }
-}
-
-#Preview {
-    NavigationStack {
-        GroceryItemDetail(item: GroceryItem(name: "Organic Whole Milk", brand: "Horizon",
-                                            quantity: 1, calories: 150,
-                                            fat: "8g", carbs: "12g", protein: "8g",
-                                            allergens: "Dairy", notes: "", isChecked: false, barcode: ""))
-    }
-}
+                .translationPresentation(isPresented: $showTranslation, text: textToTranslate)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button(action: {
+                            var parts: [String] = []
+                            parts.append("Item: \(item.name)")
+                            textToTranslate = parts.joined(separator: "\n")
+                            showTranslation = true
+                        }) {
+                            Image(systemName: "translate")
+                        }
+                    }
+                }
+            }
+        }
