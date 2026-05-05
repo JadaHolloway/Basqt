@@ -2,10 +2,9 @@
 //  FlagsGridQuiz.swift
 //  Countries
 //
-//  Created by Osman Balci on 2/9/26.
-//  Copyright © 2026 Osman Balci. All rights reserved.
+//  Created by Osman Balci and Micki Ross on 5/5/26.
+//  Copyright © 2026 Osman Balci, Micki Ross, Jada Holloway, Jonathan Hernandez Velasquez. All rights reserved.
 //
-
 import SwiftUI
 
 // Randomly shuffle quizStructList
@@ -58,8 +57,4 @@ struct FoodsGridQuiz: View {
             })
         }
     }
-}
-
-#Preview {
-    FlagsGridQuiz()
 }

@@ -1,9 +1,9 @@
 //
-//  Beaches.swift
-//  TravelGuide
+//  FoodSlide.swift
+//  Basqt
 //
-//  Created by Osman Balci on 1/20/26.
-//  Copyright © 2026 Osman Balci. All rights reserved.
+//  Created by Osman Balci and Micki Ross on 5/5/26.
+//  Copyright © 2026 Osman Balci, Micki Ross, Jada Holloway, Jonathan Hernandez Velasquez. All rights reserved.
 //
 
 import SwiftUI
@@ -51,7 +51,7 @@ struct FoodSlide: View {
                         UIPageControl.appearance().currentPageIndicatorTintColor = .black
                         UIPageControl.appearance().pageIndicatorTintColor = .gray
                     }
-                    .navigationTitle("24 Best Island Beaches in the World")
+                    .navigationTitle("Your Best Foods in the World")
                     .toolbarTitleDisplayMode(.inline)
                     .toolbar {
                         // Place the Information button on right side of the toolbar
@@ -77,8 +77,4 @@ struct FoodSlide: View {
             }   // End of ZStack
         }   // End of NavigationStack
     }   // End of body var
-}
-
-#Preview {
-    Beaches()
 }
