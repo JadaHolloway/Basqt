@@ -2,8 +2,8 @@
 //  HomeView.swift
 //  Basqt
 //
-//  Created by lending on 4/27/26.
-//  Copyright © 2026 Micki, Jada, Jonathan. All rights reserved.
+//  Created by Osman Balci and Micki Ross on 5/4/26.
+//  Copyright © 2026 Osman Balci, Micki Ross, Jada Holloway, Jonathan Hernandez Velasquez. All rights reserved.
 //
 
 

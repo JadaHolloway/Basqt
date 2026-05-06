@@ -18,6 +18,8 @@ struct GroceryListDetail: View {
     @State private var showTranslation = false
     @State private var textToTranslate = ""
 
+    @State private var pdfURL: URL?
+    
     var body: some View {
         let items = groceryList.items ?? []
 
@@ -77,6 +79,7 @@ struct GroceryListDetail: View {
                 EditButton()
             }
             ToolbarItem(placement: .topBarTrailing) {
+                
                 Button(action: {
                     let items = groceryList.items ?? []
                     // Build a readable list of all grocery items to translate
@@ -100,9 +103,21 @@ struct GroceryListDetail: View {
                     Image(systemName: "plus")
                 }
             }
+            ToolbarItem(placement: .topBarLeading) {
+                    if let pdfURL = pdfURL {
+                        ShareLink(item: pdfURL) {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                    } else {
+                        ProgressView()
+                    }
+             
+            }
         }
         .sheet(isPresented: $showAddItem) {
             AddGroceryItem(groceryList: groceryList)
+        }.onAppear {
+            generateAndSavePDF()
         }
     }
 
@@ -112,6 +127,23 @@ struct GroceryListDetail: View {
             modelContext.delete(items[index])
         }
     }
+    
+    func generateAndSavePDF() {
+        let generator = GroceryPDFGenerator(groceryList: groceryList)
+        let pdfData = generator.generatePDFData()
+        
+        let fileName = groceryList.name.replacingOccurrences(of: " ", with: "_") + ".pdf"
+        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
+        do {
+            try pdfData.write(to: tempURL)
+            self.pdfURL = tempURL
+        } catch {
+            print("Could not save to PDF.")
+        }
+        
+    }
+    
+    
 }
 
 #Preview {
