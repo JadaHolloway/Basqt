@@ -16,8 +16,13 @@ struct RecipeDetails: View {
     // Input Parameter
     let recipe: Recipe
     let audioPlayer: AudioPlayer
+    @State private var textToBeConvertedToSpeech = ""
+    @State private var textEntered = false
 
+    @State private var speechSynthesizer = AVSpeechSynthesizer()
     
+@State private var isCopied = false
+        
     var body: some View {
         
         return AnyView(
@@ -66,29 +71,41 @@ struct RecipeDetails: View {
                     Text(recipe.ingredients)
                     Button(action: {
                         UIPasteboard.general.string = recipe.ingredients
+                        withAnimation {
+                            isCopied = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation {
+                                isCopied = false
+                            }
+                        }
                     }) {
                         HStack {
-                            Image(systemName: "document.on.clipboard")
-                            Text("Copy Ingredients")
-                        }.foregroundColor(.blue)
+                            Image(systemName: isCopied ? "checkmark.circle" : "document.on.document")
+                            Text(isCopied ? "Copied!" : "Copy Ingredients")
+                        }.foregroundColor(isCopied ? .green : .blue)
                     }
                 }
-                Section(header: Text("Play Voice Memo")) {
-                    Button(action: {
-                        if audioPlayer.isPlaying {
-                            audioPlayer.pauseAudioPlayer()
-                        } else {
-                            audioPlayer.startAudioPlayer()
-                        }
-                    }) {
-                        HStack {
-                            Image(systemName: audioPlayer.isPlaying ? "pause.fill" : "play.fill")
-                                .imageScale(.medium)
-                                .font(Font.title.weight(.regular))
-                            Text("Play Voice Memo")
-                                .font(.system(size: 16))
-                        }
-                        .foregroundColor(.blue)
+                Section(header: Text(recipe.audioFullFilename.isEmpty ? "Read Description" : "Play Voice Memo")) {
+                        Button(action: {
+                            if !recipe.audioFullFilename.isEmpty {
+                            if audioPlayer.isPlaying {
+                                audioPlayer.pauseAudioPlayer()
+                            } else {
+                                audioPlayer.startAudioPlayer()
+                            }
+                            } else {
+                                convertTextToSpeech()
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: audioPlayer.isPlaying ? "pause.fill" : "play.fill")
+                                    .imageScale(.medium)
+                                    .font(Font.title.weight(.regular))
+                                Text("Play Voice Memo")
+                                    .font(.system(size: 16))
+                            }
+                            .foregroundColor(.blue)
                     }
                 }
                 Section(header: Text("Notes")) {
@@ -104,12 +121,62 @@ struct RecipeDetails: View {
                 .toolbarTitleDisplayMode(.inline).toolbar {
                 }
                 .onAppear() {
-                audioPlayer.createAudioPlayer(url: documentDirectory.appendingPathComponent(recipe.audioFullFilename))
+                    if !recipe.audioFullFilename.isEmpty {
+                        audioPlayer.createAudioPlayer(url: documentDirectory.appendingPathComponent(recipe.audioFullFilename))
+                    } else {
+                        audioPlayer.stopAudioPlayer()
+                        textToBeConvertedToSpeech = recipe.briefDescription
+                    }
             }
             .onDisappear() {
                 audioPlayer.stopAudioPlayer()
             }
         )   // End of AnyView
+    }
+    func convertTextToSpeech() {
+        
+        if speechSynthesizer.isSpeaking {
+            speechSynthesizer.stopSpeaking(at: .immediate)
+        }
+        
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        
+        do {
+            /*
+             Override the Output Audio Port of the audioSession by
+             routing audio to the built-in speaker and microphone.
+             */
+            try
+                audioSession.overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+        } catch {
+            print("Unable to override the Output Audio Port!")
+        }
+        
+        // Create an AVSpeechUtterance instance with the text to be spoken
+        let speechUtterance = AVSpeechUtterance(string: textToBeConvertedToSpeech)
+        
+        /*
+         Set the speech language to English with U.S. dialect.
+         Some of the English language dialects:
+         English (Australia):         en-AU
+         English (Ireland):           en-IE
+         English (South Africa):      en-ZA
+         English (United Kingdom):    en-GB
+         English (United States):     en-US
+         */
+        speechUtterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        /*
+         Set the speed (rate) at which entered text will be spoken;
+         The higher the rate, the faster the speech will be.
+         */
+        speechUtterance.rate = 0.5
+        
+        /*
+         Calling speechSynthesizer's speak method adds the speechUtterance to a queue;
+         utterances are spoken in the order in which they are added to the queue.
+         */
+        speechSynthesizer.speak(speechUtterance)
     }
 }
 

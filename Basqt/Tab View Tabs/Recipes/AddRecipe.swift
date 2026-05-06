@@ -9,14 +9,11 @@
 import SwiftUI
 import SwiftData
 import AVFoundation
-
-//import CoreLocation
 import Speech
-import AVFoundation
+
 fileprivate var audioSession = AVAudioSession()
 fileprivate var audioRecorder: AVAudioRecorder!
 fileprivate var temporaryVoiceRecordingFilename = ""
-
 
 struct AddRecipe: View {
 
@@ -96,20 +93,9 @@ struct AddRecipe: View {
             Section(header: Text("Ingredients")) {
                 TextField("Enter Ingredients", text: $ingredients)
             }
-            Section(header: Text("Voice Recording")) {
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        Task {
-                            await voiceRecordingMicrophoneTapped()
-                        }
-                    }) {
-                        voiceRecordingMicrophoneLabel
-                    }
-                    Spacer()
-                }
-            }
-            Section(header: Text("Recipe Notes by Converting Your Speech to Text")
+            
+            
+            Section(header: Text("Take Notes by Converting Your Speech to Text")
                 .fixedSize(horizontal: false, vertical: true)   // Allow lines to wrap around
                 .padding(.bottom, 8)
             ) {
@@ -202,30 +188,12 @@ struct AddRecipe: View {
         }
         
         .sheet(isPresented: $showImagePicker) {
-            /*
-             For storage and performance efficiency reasons, we scale down the photo image selected from the
-             photo library or taken by the camera to a smaller size with imageWidth and imageHeight in points.
-             
-             For high-resolution displays, 1 point = 3 pixels
-             
-             We use a square aspect ratio 1:1 for album cover photos with imageWidth = imageHeight = 200.0 points.
-             
-             You can select imageWidth and imageHeight values for other aspect ratios such as 4:3 or 16:9.
-             
-             imageWidth = 200.0 points and imageHeight = 200.0 points will produce an image with
-             imageWidth = 600.0 pixels and imageHeight = 600.0 pixels which is about 84KB to 164KB in JPG format.
-             */
             
             ImagePicker(uiImage: $pickedUIImage, sourceType: useCamera ? .camera : .photoLibrary, imageWidth: 200.0, imageHeight: 200.0)
         }
         
     }   // End of body var
     
-    /*
-     ---------------------------
-     MARK: Input Data Validation
-     ---------------------------
-     */
     func inputDataValidated() -> Bool {
         
         if recipeName.isEmpty || ingredients.isEmpty || caloriesText.isEmpty {
@@ -234,17 +202,6 @@ struct AddRecipe: View {
         
         return true
     }
-    /*
-     ***************************************************************
-     *        Take Notes by Converting Your Speech to Text         *
-     ***************************************************************
-     */
-    
-    /*
-     -------------------------------------
-     MARK: Speech to Text Microphone Label
-     -------------------------------------
-     */
     var speechToTextMicrophoneLabel: some View {
         VStack {
             Image(systemName: recordingVoiceToText ? "mic.fill" : "mic.slash.fill")
@@ -255,107 +212,6 @@ struct AddRecipe: View {
                 .multilineTextAlignment(.center)
         }
     }
-    var voiceRecordingMicrophoneLabel: some View {
-        VStack {
-            Image(systemName: recordingVoice ? "mic.fill" : "mic.slash.fill")
-                .imageScale(.large)
-                .font(Font.title.weight(.medium))
-                .foregroundColor(.blue)
-                .padding()
-            Text(recordingVoice ? "Recording your voice... Tap to Stop!" : "Start Recording!")
-                .multilineTextAlignment(.center)
-        }
-    }
-    func voiceRecordingMicrophoneTapped() async {
-        if audioRecorder == nil {
-            recordingVoice = true
-            Task {
-                await startRecording()
-            }
-        } else {
-            recordingVoice = false
-            finishRecording()
-        }
-    }
-    func startRecording() async {
-
-        // Create a shared audio session instance
-        audioSession = AVAudioSession.sharedInstance()
-        
-        //---------------------------
-        // Enable Built-In Microphone
-        //---------------------------
-        
-        // Find the built-in microphone.
-        guard let availableInputs = audioSession.availableInputs,
-              let builtInMicrophone = availableInputs.first(where: { $0.portType == .builtInMic })
-        else {
-            print("The device must have a built-in microphone.")
-            return
-        }
-        
-        do {
-            try audioSession.setPreferredInput(builtInMicrophone)
-        } catch {
-            fatalError("Unable to Find the Built-In Microphone!")
-        }
-        
-        //--------------------------------------------------
-        // Set Audio Session Category and Request Permission
-        //--------------------------------------------------
-        
-        do {
-            try audioSession.setCategory(.playAndRecord, mode: .default)
-            
-            // Activate the audio session
-            try audioSession.setActive(true)
-        } catch {
-            print("Setting category or getting permission failed!")
-        }
-
-        let settings = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVSampleRateKey: 12000,
-            AVNumberOfChannelsKey: 1,
-            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
-        ]
-        
-        temporaryVoiceRecordingFilename = "voiceRecording.m4a"
-        let audioFilenameUrl = documentDirectory.appendingPathComponent(temporaryVoiceRecordingFilename)
-        
-        Task {
-            // Request permission to record user's voice
-            if await AVAudioApplication.requestRecordPermission() {
-                // The user grants access. Present recording interface.
-                do {
-                    audioRecorder = try AVAudioRecorder(url: audioFilenameUrl, settings: settings)
-                    audioRecorder.record()
-                } catch {
-                    finishRecording()
-                }
-            } else {
-                /*
-                 The user earlier denied use of microphone. Present a message
-                 indicating that the user can change the microphone use permission
-                 in the Privacy & Security section of the Settings app.
-                 */
-                showAlertMessage = true
-                alertTitle = "Voice Recording Unallowed"
-                alertMessage = "Allow recording of your voice in Privacy & Security section of the Settings app."
-            }
-        }
-    }
-    func finishRecording() {
-        audioRecorder.stop()
-        audioRecorder = nil
-        recordingVoice = false
-    }
-    
-    /*
-     --------------------------------------
-     MARK: Speech to Text Microphone Tapped
-     --------------------------------------
-     */
     func speechToTextMicrophoneTapped() {
         if recordingVoiceToText {
             cancelSpeechToTextRecording()
@@ -365,26 +221,15 @@ struct AddRecipe: View {
             recordAndRecognizeSpeech()
         }
     }
-    
-    /*
-     -------------------------------------
-     MARK: Cancel Speech to Text Recording
-     -------------------------------------
-     */
+  
     func cancelSpeechToTextRecording() {
         request.endAudio()
         audioEngine.inputNode.removeTap(onBus: 0)
         audioEngine.stop()
         recognitionTask?.finish()
     }
-    
-    /*
-     --------------------------------------------
-     MARK: Record Audio and Transcribe it to Text
-     --------------------------------------------
-     */
     func recordAndRecognizeSpeech() {
-        
+        let request = SFSpeechAudioBufferRecognitionRequest()
         // Create a shared audio session instance
         audioSession = AVAudioSession.sharedInstance()
         
@@ -476,11 +321,7 @@ struct AddRecipe: View {
         }
     }
     
-    /*
-     **********************************
-     MARK: Save New National Park Visit
-     **********************************
-     */
+
     func saveNewRecipe() {
 
         //--------------------------------------------------
@@ -497,16 +338,16 @@ struct AddRecipe: View {
         } else {
             fatalError("Picked or taken photo is not available!")
         }
-        let newAudioFullFilename = UUID().uuidString + ".m4a"
+        /*let newAudioFullFilename = UUID().uuidString + ".m4a"
         let temporaryFile = documentDirectory.appendingPathComponent(temporaryVoiceRecordingFilename)
         let finalFile = documentDirectory.appendingPathComponent(newAudioFullFilename)
         do {
             try FileManager.default.moveItem(at: temporaryFile, to: finalFile)
         } catch {
             fatalError("Unable to rename the temporary voice recording file in document directory")
-        }
+        }*/
         
-        let newRecipe = Recipe(name: recipeName, briefDescription: briefDesctiption, ingredients: ingredients, notes: speechConvertedToText, calories: Int(caloriesText) ?? 0, dietaryTags: dietaryTags, photoFullFilename: photoFullFilename, audioFullFilename: newAudioFullFilename)
+        let newRecipe = Recipe(name: recipeName, briefDescription: briefDesctiption, ingredients: ingredients, notes: speechConvertedToText, calories: Int(caloriesText) ?? 0, dietaryTags: dietaryTags, photoFullFilename: photoFullFilename, audioFullFilename: audioFullFilename)//newaudiofilename
         
         // ❎ Insert it into the database context
         modelContext.insert(newRecipe)
