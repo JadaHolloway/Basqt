@@ -8,21 +8,28 @@
 import Foundation
 
 struct QuizStruct: Hashable {
-    let barcode: String          // Open Food Facts uses barcode to get image
+    let imageName: String       // Asset name matching photoFullFilename
     let productName: String
+    let briefDescription: String
 }
 
-// Barcode is used to build the image URL:
-// https://images.openfoodfacts.org/images/products/{barcode}/front_en.display.jpg
 let quizStructList: [QuizStruct] = [
-    QuizStruct(barcode: "049000028911", productName: "Coca-Cola"),
-    QuizStruct(barcode: "016000275645", productName: "Cheerios"),
-    QuizStruct(barcode: "038000845017", productName: "Corn Flakes"),
-    QuizStruct(barcode: "044000032364", productName: "Oreo"),
-    QuizStruct(barcode: "028400090315", productName: "Lay's Classic"),
-    QuizStruct(barcode: "021130126026", productName: "Tropicana Orange Juice"),
-    QuizStruct(barcode: "070038638101", productName: "Nature Valley Granola Bar"),
-    QuizStruct(barcode: "040000387503", productName: "Snickers"),
-    QuizStruct(barcode: "011110038364", productName: "Peanut Butter"),
-    QuizStruct(barcode: "013562000128", productName: "Wheat Thins")
+    QuizStruct(imageName: "Spicy Chicken Stir-fry",         productName: "Spicy Chicken Stir-fry",          briefDescription: "Gluten-Free"),
+    QuizStruct(imageName: "Avocado Black Bean Tacos",       productName: "Avocado Black Bean Tacos",        briefDescription: "Vegan, Gluten-Free"),
+    QuizStruct(imageName: "Lemon Garlic Salmon",            productName: "Lemon Garlic Salmon",             briefDescription: "Gluten-Free, High-Protein"),
+    QuizStruct(imageName: "Overnight Oats with Berries",    productName: "Overnight Oats with Berries",     briefDescription: "Vegan, Dairy-Free"),
+    QuizStruct(imageName: "Greek Chicken Bowl",             productName: "Greek Chicken Bowl",              briefDescription: "Gluten-Free, High-Protein"),
+    QuizStruct(imageName: "Vegan Lentil Soup",              productName: "Vegan Lentil Soup",               briefDescription: "Vegan, Gluten-Free, Dairy-Free"),
+    QuizStruct(imageName: "Pesto Zucchini Noodles",         productName: "Pesto Zucchini Noodles",          briefDescription: "Vegetarian, Gluten-Free, Low-Carb"),
+    QuizStruct(imageName: "Egg Fried Rice",                 productName: "Egg Fried Rice",                  briefDescription: "Vegetarian, Dairy-Free"),
+    QuizStruct(imageName: "Turkey and Spinach Stuffed Peppers", productName: "Turkey and Spinach Stuffed Peppers", briefDescription: "Gluten-Free, High-Protein"),
+    QuizStruct(imageName: "Banana Peanut Butter Smoothie",  productName: "Banana Peanut Butter Smoothie",   briefDescription: "Vegetarian, High-Protein"),
+    QuizStruct(imageName: "Shrimp and Mango Salad",         productName: "Shrimp and Mango Salad",          briefDescription: "Gluten-Free, Dairy-Free"),
+    QuizStruct(imageName: "Butternut Squash Curry",         productName: "Butternut Squash Curry",          briefDescription: "Vegan, Gluten-Free"),
+    QuizStruct(imageName: "Tuna Nicoise Salad",             productName: "Tuna Nicoise Salad",              briefDescription: "Gluten-Free, High-Protein"),
+    QuizStruct(imageName: "Miso Glazed Cod",                productName: "Miso Glazed Cod",                 briefDescription: "Gluten-Free, High-Protein"),
+    QuizStruct(imageName: "Caprese Pasta",                  productName: "Caprese Pasta",                   briefDescription: "Vegetarian"),
+    QuizStruct(imageName: "Korean Beef Bibimbap",           productName: "Korean Beef Bibimbap",            briefDescription: "Dairy-Free, High-Protein"),
+    QuizStruct(imageName: "Chia Seed Pudding with Mango",   productName: "Chia Seed Pudding with Mango",    briefDescription: "Vegan, Gluten-Free"),
+    QuizStruct(imageName: "Sweet Potato and Black Bean Burrito", productName: "Sweet Potato and Black Bean Burrito", briefDescription: "Vegetarian, High-Fiber")
 ]

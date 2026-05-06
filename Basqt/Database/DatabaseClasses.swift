@@ -184,9 +184,10 @@ class Recipe {
     var calories: Int
     var dietaryTags: String
     var photoFullFilename: String
+    var audioFullFilename: String
 
     init(name: String, briefDescription: String, ingredients: String, notes: String,
-         calories: Int, dietaryTags: String, photoFullFilename: String) {
+         calories: Int, dietaryTags: String, photoFullFilename: String, audioFullFilename:String) {
         self.name = name
         self.briefDescription = briefDescription
         self.ingredients = ingredients
@@ -194,5 +195,6 @@ class Recipe {
         self.calories = calories
         self.dietaryTags = dietaryTags
         self.photoFullFilename = photoFullFilename
+        self.audioFullFilename = audioFullFilename
     }
 }

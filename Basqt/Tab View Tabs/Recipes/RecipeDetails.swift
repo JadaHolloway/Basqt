@@ -15,6 +15,9 @@ struct RecipeDetails: View {
     
     // Input Parameter
     let recipe: Recipe
+    let audioPlayer: AudioPlayer
+
+    
     var body: some View {
         
         return AnyView(
@@ -22,10 +25,32 @@ struct RecipeDetails: View {
                 Section(header: Text("Recipe Name")) {
                     Text(recipe.name)
                 }
-                if !recipe.photoFullFilename.isEmpty {
-                    Section(header: Text("Recipe Photo")) {
-                        Image(recipe.photoFullFilename)
-                            .resizable().scaledToFit()
+                
+                Section(header: Text("Recipe Image"))
+                {
+                    let filename = (recipe.photoFullFilename as NSString).deletingPathExtension
+                    let fileExtension = (recipe.photoFullFilename as NSString).pathExtension
+                    
+                    if recipe.photoFullFilename.isEmpty {
+                        Image("ImageUnavailable")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 300)
+                    } else if recipe.photoFullFilename.hasPrefix("http") {
+                        getImageFromUrl(url: recipe.photoFullFilename, defaultFilename: "ImageUnavailable")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 300)
+                    } else if UIImage(named: filename) != nil {
+                        Image(filename)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 300)
+                    } else {
+                        getImageFromDocumentDirectory(filename: filename, fileExtension: fileExtension, defaultFilename: "ImageUnavailable")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 300)
                     }
                 }
                 Section(header: Text("Description")) {
@@ -48,6 +73,24 @@ struct RecipeDetails: View {
                         }.foregroundColor(.blue)
                     }
                 }
+                Section(header: Text("Play Voice Memo")) {
+                    Button(action: {
+                        if audioPlayer.isPlaying {
+                            audioPlayer.pauseAudioPlayer()
+                        } else {
+                            audioPlayer.startAudioPlayer()
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: audioPlayer.isPlaying ? "pause.fill" : "play.fill")
+                                .imageScale(.medium)
+                                .font(Font.title.weight(.regular))
+                            Text("Play Voice Memo")
+                                .font(.system(size: 16))
+                        }
+                        .foregroundColor(.blue)
+                    }
+                }
                 Section(header: Text("Notes")) {
                     if recipe.notes.isEmpty {
                         Text("No notes added.")
@@ -68,8 +111,15 @@ struct RecipeDetails: View {
                         }
                     }
                 }
+                .onAppear() {
+                audioPlayer.createAudioPlayer(url: documentDirectory.appendingPathComponent(recipe.audioFullFilename))
+            }
+            .onDisappear() {
+                audioPlayer.stopAudioPlayer()
+            }
         )   // End of AnyView
     }
 }
+
 
 

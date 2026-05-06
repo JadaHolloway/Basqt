@@ -10,7 +10,7 @@ import SwiftUI
 import Observation
 import AVFoundation
  
-fileprivate var playerOfAudio: AVAudioPlayer!
+var playerOfAudio: AVAudioPlayer!
  
 @Observable
 class AudioPlayer: NSObject, AVAudioPlayerDelegate {

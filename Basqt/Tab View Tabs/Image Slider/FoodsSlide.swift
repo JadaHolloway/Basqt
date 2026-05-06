@@ -14,19 +14,19 @@ struct FoodSlide: View {
     @Query private var recipes: [Recipe]
     // Default selected background color
     @State private var selectedBgColor = Color.gray.opacity(0.1)
-    
+
     @State private var showAlertMessage = false
     @State private var selectedTab = 0
     @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-    
-  
+
+
     //add timer to this?
     var body: some View {
         NavigationStack {
             ZStack {            // Background
                 // Color entire background with selected color
                 selectedBgColor
-                
+
                 // Place color picker at upper right corner
                 VStack {        // Foreground
                     HStack {
@@ -40,11 +40,11 @@ struct FoodSlide: View {
                         Spacer()
                     } else {
                         TabView(selection: $selectedTab) {
-                            
+
                             ForEach(0..<recipes.count, id: \.self) { index in
                                 let recipe = recipes[index]
                                 VStack {
-                                    NavigationLink(destination: RecipeDetails(recipe: recipe)) {
+                                    NavigationLink(destination: RecipeDetails(recipe: recipe, audioPlayer: AudioPlayer())) {
                                         Text(recipe.name)
                                             .font(.headline)
                                             .multilineTextAlignment(.center)
@@ -66,14 +66,14 @@ struct FoodSlide: View {
                             }
                         }   // End of TabView
                         .tabViewStyle(PageTabViewStyle())
-                        
+
                         .onReceive(timer) { _ in
                             withAnimation {
                                 selectedTab = (selectedTab + 1) % recipes.count
                             }
                         }
                     }
-                    
+
                 }
             }
             .onAppear() {
@@ -83,7 +83,7 @@ struct FoodSlide: View {
             .navigationTitle("Your Best Foods in the World")
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
-                
+
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
                         showAlertMessage = true

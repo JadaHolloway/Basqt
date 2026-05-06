@@ -27,7 +27,7 @@ struct FoodsGridQuiz: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Find the food product:")
+                Text("Find the recipe:")
                     .font(.system(size: 16, weight: .light, design: .serif))
                     .italic()
 
@@ -42,23 +42,19 @@ struct FoodsGridQuiz: View {
                         ForEach(shuffledQuizStructList, id: \.self) { aQuizStruct in
 
                             // Food image from Open Food Facts:
-                            // https://images.openfoodfacts.org/images/products/{barcode}/front_en.display.jpg
-                            getImageFromUrl(
-                                url: "https://images.openfoodfacts.org/images/products/\(aQuizStruct.barcode)/front_en.display.jpg",
-                                defaultFilename: "ImageUnavailable"
-                            )
-                            .resizable()
-                            .scaledToFit()
-                            .onTapGesture {
-                                if aQuizStruct.barcode == targetQuizStruct.barcode {
-                                    alertTitle = " Correct!"
-                                    alertMessage = "\(aQuizStruct.productName)"
-                                } else {
-                                    alertTitle = "Wrong!"
-                                    alertMessage = "That is \(aQuizStruct.productName).\nYou were looking for \(targetQuizStruct.productName)."
+                            Image(aQuizStruct.imageName)
+                                .resizable()
+                                .scaledToFit()
+                                .onTapGesture {
+                                    if aQuizStruct.imageName == targetQuizStruct.imageName {
+                                        alertTitle = " Correct!"
+                                        alertMessage = "\(aQuizStruct.productName)\n\(aQuizStruct.briefDescription)"
+                                    } else {
+                                        alertTitle = " Wrong!"
+                                        alertMessage = "That is \(aQuizStruct.productName).\nYou were looking for \(targetQuizStruct.productName)."
+                                    }
+                                    showAlertMessage = true
                                 }
-                                showAlertMessage = true
-                            }
                         }
                     }   // End of LazyVGrid
                     .padding()
@@ -66,7 +62,7 @@ struct FoodsGridQuiz: View {
                 }   // End of ScrollView
 
             }   // End of VStack
-            .navigationTitle("Food Products Grid Quiz")
+            .navigationTitle("Recipe Grid Quiz")
             .toolbarTitleDisplayMode(.inline)
             .alert(alertTitle, isPresented: $showAlertMessage, actions: {
                 Button("Next Question") {

@@ -8,6 +8,8 @@
 
 import SwiftUI
 import SwiftData
+import AVFoundation
+
 //import CoreLocation
 import Speech
 import AVFoundation
@@ -22,6 +24,7 @@ struct AddRecipe: View {
     @Environment(\.dismiss) private var dismiss
     
     @Environment(\.modelContext) private var modelContext
+    let audioFullFilename = UUID().uuidString + ".m4a"
     
     //---------------------------
     // National Park Visit Object
@@ -31,6 +34,9 @@ struct AddRecipe: View {
     @State private var ingredients = ""
     @State private var dietaryTags = ""
     @State private var caloriesText = ""
+    @State private var voiceMemoTitle = ""
+    @State private var recordingVoice = false
+
     
     //------------------------------------
     // Image Picker from Camera or Library
@@ -89,6 +95,19 @@ struct AddRecipe: View {
             }
             Section(header: Text("Ingredients")) {
                 TextField("Enter Ingredients", text: $ingredients)
+            }
+            Section(header: Text("Voice Recording")) {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        Task {
+                            await voiceRecordingMicrophoneTapped()
+                        }
+                    }) {
+                        voiceRecordingMicrophoneLabel
+                    }
+                    Spacer()
+                }
             }
             Section(header: Text("Recipe Notes by Converting Your Speech to Text")
                 .fixedSize(horizontal: false, vertical: true)   // Allow lines to wrap around
@@ -235,6 +254,101 @@ struct AddRecipe: View {
             Text(recordingVoiceToText ? "Recording your voice... Tap to Stop!" : "Convert Speech to Text!")
                 .multilineTextAlignment(.center)
         }
+    }
+    var voiceRecordingMicrophoneLabel: some View {
+        VStack {
+            Image(systemName: recordingVoice ? "mic.fill" : "mic.slash.fill")
+                .imageScale(.large)
+                .font(Font.title.weight(.medium))
+                .foregroundColor(.blue)
+                .padding()
+            Text(recordingVoice ? "Recording your voice... Tap to Stop!" : "Start Recording!")
+                .multilineTextAlignment(.center)
+        }
+    }
+    func voiceRecordingMicrophoneTapped() async {
+        if audioRecorder == nil {
+            recordingVoice = true
+            Task {
+                await startRecording()
+            }
+        } else {
+            recordingVoice = false
+            finishRecording()
+        }
+    }
+    func startRecording() async {
+
+        // Create a shared audio session instance
+        audioSession = AVAudioSession.sharedInstance()
+        
+        //---------------------------
+        // Enable Built-In Microphone
+        //---------------------------
+        
+        // Find the built-in microphone.
+        guard let availableInputs = audioSession.availableInputs,
+              let builtInMicrophone = availableInputs.first(where: { $0.portType == .builtInMic })
+        else {
+            print("The device must have a built-in microphone.")
+            return
+        }
+        
+        do {
+            try audioSession.setPreferredInput(builtInMicrophone)
+        } catch {
+            fatalError("Unable to Find the Built-In Microphone!")
+        }
+        
+        //--------------------------------------------------
+        // Set Audio Session Category and Request Permission
+        //--------------------------------------------------
+        
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .default)
+            
+            // Activate the audio session
+            try audioSession.setActive(true)
+        } catch {
+            print("Setting category or getting permission failed!")
+        }
+
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+        
+        temporaryVoiceRecordingFilename = "voiceRecording.m4a"
+        let audioFilenameUrl = documentDirectory.appendingPathComponent(temporaryVoiceRecordingFilename)
+        
+        Task {
+            // Request permission to record user's voice
+            if await AVAudioApplication.requestRecordPermission() {
+                // The user grants access. Present recording interface.
+                do {
+                    audioRecorder = try AVAudioRecorder(url: audioFilenameUrl, settings: settings)
+                    audioRecorder.record()
+                } catch {
+                    finishRecording()
+                }
+            } else {
+                /*
+                 The user earlier denied use of microphone. Present a message
+                 indicating that the user can change the microphone use permission
+                 in the Privacy & Security section of the Settings app.
+                 */
+                showAlertMessage = true
+                alertTitle = "Voice Recording Unallowed"
+                alertMessage = "Allow recording of your voice in Privacy & Security section of the Settings app."
+            }
+        }
+    }
+    func finishRecording() {
+        audioRecorder.stop()
+        audioRecorder = nil
+        recordingVoice = false
     }
     
     /*
@@ -383,8 +497,16 @@ struct AddRecipe: View {
         } else {
             fatalError("Picked or taken photo is not available!")
         }
+        let newAudioFullFilename = UUID().uuidString + ".m4a"
+        let temporaryFile = documentDirectory.appendingPathComponent(temporaryVoiceRecordingFilename)
+        let finalFile = documentDirectory.appendingPathComponent(newAudioFullFilename)
+        do {
+            try FileManager.default.moveItem(at: temporaryFile, to: finalFile)
+        } catch {
+            fatalError("Unable to rename the temporary voice recording file in document directory")
+        }
         
-        let newRecipe = Recipe(name: recipeName, briefDescription: briefDesctiption, ingredients: ingredients, notes: speechConvertedToText, calories: Int(caloriesText) ?? 0, dietaryTags: dietaryTags, photoFullFilename: photoFullFilename)
+        let newRecipe = Recipe(name: recipeName, briefDescription: briefDesctiption, ingredients: ingredients, notes: speechConvertedToText, calories: Int(caloriesText) ?? 0, dietaryTags: dietaryTags, photoFullFilename: photoFullFilename, audioFullFilename: newAudioFullFilename)
         
         // ❎ Insert it into the database context
         modelContext.insert(newRecipe)

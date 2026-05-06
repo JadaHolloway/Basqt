@@ -15,16 +15,26 @@ struct RecipeItem: View {
     
     var body: some View {
         HStack {
-            //avoid app crash
-            let components = recipe.photoFullFilename.components(separatedBy: ".")
-            let filename = components.first ?? ""
-            let fileExtension = components.count > 1 ? components.last! : ""
-            // This function is given in UtilityFunctions.swift
-            
-            getImageFromDocumentDirectory(filename: filename, fileExtension: fileExtension, defaultFilename: "ImageUnavailable")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 100.0, height: 75.0)
+            let filename = (recipe.photoFullFilename as NSString).deletingPathExtension
+            let fileExtension = (recipe.photoFullFilename as NSString).pathExtension
+
+            if recipe.photoFullFilename.isEmpty {
+                Image("ImageUnavailable")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100.0, height: 75.0)
+
+            } else if UIImage(named: filename) != nil {
+                Image(filename)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100.0, height: 75.0)
+            } else {
+                getImageFromDocumentDirectory(filename: filename, fileExtension: fileExtension, defaultFilename: "ImageUnavailable")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 100.0, height: 75.0)
+            }
             
             VStack(alignment: .leading) {
                 Text(recipe.name)

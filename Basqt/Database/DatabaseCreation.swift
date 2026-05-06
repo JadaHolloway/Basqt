@@ -106,6 +106,9 @@ public func createBasqtDatabase() {
     recipeStructList = decodeJsonFileIntoArrayOfStructs(fullFilename: "DBInitialContent-Recipes.json", fileLocation: "Main Bundle")
 
     for aRecipeStruct in recipeStructList {
+        let filenameComponents = aRecipeStruct.audioFullFilename.components(separatedBy: ".")
+        copyFileFromMainBundleToDocumentDirectory(filename: filenameComponents[0], fileExtension: filenameComponents[1])
+        
         let newRecipe = Recipe(
             name: aRecipeStruct.name,
             briefDescription: aRecipeStruct.briefDescription,
@@ -113,7 +116,8 @@ public func createBasqtDatabase() {
             notes: aRecipeStruct.notes,
             calories: aRecipeStruct.calories,
             dietaryTags: aRecipeStruct.dietaryTags,
-            photoFullFilename: aRecipeStruct.photoFullFilename
+            photoFullFilename: aRecipeStruct.photoFullFilename,
+            audioFullFilename: aRecipeStruct.audioFullFilename
         )
         modelContext.insert(newRecipe)
     }   // End of for loop

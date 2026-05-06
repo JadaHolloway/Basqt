@@ -26,7 +26,7 @@ struct RecipeList: View {
             List {
                 // Search Bar: 2 of 4 --> Use filteredParkVisits
                 ForEach(filteredRecipes) { aRecipe in
-                    NavigationLink(destination: RecipeDetails(recipe: aRecipe)) {
+                    NavigationLink(destination: RecipeDetails(recipe: aRecipe, audioPlayer:AudioPlayer())) {
                         RecipeItem(recipe: aRecipe)
                             .alert(isPresented: $showConfirmation) {
                                 Alert(title: Text("Delete Confirmation"),
