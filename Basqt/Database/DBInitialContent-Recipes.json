@@ -5,7 +5,7 @@
         "ingredients": "Chicken breast — 200g\nBell peppers — 2\nSoy sauce — 2 tbsp\nGarlic — 3 cloves\nSesame oil — 1 tsp",
         "notes": "No notes added.",
         "calories": 300,
-        "dietaryTags": "Gluten-Free",
+        "dietaryTags": {"tag": "Gluten-Free"},
         "photoFullFilename": "Spicy Chicken Stir-fry",
         "audioFullFilename": "Spicy Chicken Stir-fryAudio.m4a"
     },
@@ -15,7 +15,7 @@
         "ingredients": "Corn tortillas — 4\nBlack beans — 1 can\nAvocado — 1\nLime — 1\nCilantro — handful\nCumin — 1 tsp\nSalt — to taste",
         "notes": "Mash the avocado with lime juice right before serving to prevent browning. Add jalapeño slices for extra heat.",
         "calories": 340,
-        "dietaryTags": "Vegan, Gluten-Free",
+        "dietaryTags": {"tag": "Vegan, Gluten-Free"},
         "photoFullFilename": "Avocado Black Bean Tacos",
         "audioFullFilename": "Avocado Black Bean Tacos.m4a"
     },
@@ -25,7 +25,7 @@
         "ingredients": "Salmon fillets — 2\nButter — 2 tbsp\nGarlic — 4 cloves\nLemon — 1\nFresh dill — 1 tbsp\nSalt and pepper — to taste",
         "notes": "Pat the salmon completely dry before searing for a crispier crust. Do not move the fillet for the first 3 minutes.",
         "calories": 410,
-        "dietaryTags": "Gluten-Free, High-Protein",
+        "dietaryTags": {"tag": "Gluten-Free, High-Protein"},
         "photoFullFilename": "Lemon Garlic Salmon",
         "audioFullFilename": "Lemon Garlic Salmon.m4a"
     },
@@ -35,9 +35,9 @@
         "ingredients": "Rolled oats — 1 cup\nAlmond milk — 1 cup\nChia seeds — 1 tbsp\nMaple syrup — 1 tbsp\nMixed berries — half cup\nVanilla extract — half tsp",
         "notes": "No notes added.",
         "calories": 290,
-        "dietaryTags": "Vegan, Dairy-Free",
+        "dietaryTags": {"tag": "Vegan, Dairy-Free"},
         "photoFullFilename": "Overnight Oats with Berries",
-        "audioFullFilename" : "Overnight Oats with Berries.m4a"
+        "audioFullFilename": "Overnight Oats with Berries.m4a"
     },
     {
         "name": "Greek Chicken Bowl",
@@ -45,11 +45,9 @@
         "ingredients": "Chicken thighs — 300g\nCooked rice — 1 cup\nCucumber — half\nCherry tomatoes — 6\nKalamata olives — 8\nTzatziki — 3 tbsp\nOlive oil — 1 tbsp\nOregano — 1 tsp",
         "notes": "Marinate the chicken overnight in olive oil, lemon, and oregano for the best flavor. Store toppings separately if meal prepping.",
         "calories": 520,
-        "dietaryTags": "Gluten-Free, High-Protein",
+        "dietaryTags": {"tag": "Gluten-Free, High-Protein"},
         "photoFullFilename": "Greek Chicken Bowl",
-        "audioFullFilename" : "Greek Chicken Bowl.m4a"
-
-        
+        "audioFullFilename": "Greek Chicken Bowl.m4a"
     },
     {
         "name": "Vegan Lentil Soup",
@@ -57,9 +55,9 @@
         "ingredients": "Red lentils — 1 cup\nVegetable broth — 4 cups\nOnion — 1\nCarrot — 2\nGarlic — 3 cloves\nCumin — 1 tsp\nSmoked paprika — 1 tsp\nOlive oil — 1 tbsp",
         "notes": "No notes added.",
         "calories": 270,
-        "dietaryTags": "Vegan, Gluten-Free, Dairy-Free",
+        "dietaryTags": {"tag": "Vegan, Gluten-Free, Dairy-Free"},
         "photoFullFilename": "Vegan Lentil Soup",
-        "audioFullFilename" : "Vegan Lentil Soup.m4a"
+        "audioFullFilename": "Vegan Lentil Soup.m4a"
     },
     {
         "name": "Pesto Zucchini Noodles",
@@ -67,7 +65,7 @@
         "ingredients": "Zucchini — 3 large\nFresh basil — 2 cups\nParmesan — quarter cup\nPine nuts — 3 tbsp\nGarlic — 2 cloves\nOlive oil — quarter cup\nSalt and pepper — to taste",
         "notes": "Salt the zucchini noodles and let them sit for 10 minutes, then pat dry. This removes excess water and prevents a watery dish.",
         "calories": 220,
-        "dietaryTags": "Vegetarian, Gluten-Free, Low-Carb",
+        "dietaryTags": {"tag": "Vegetarian, Gluten-Free, Low-Carb"},
         "photoFullFilename": "Pesto Zucchini Noodles",
         "audioFullFilename": "Pesto Zucchini Noodles.m4a"
     },
@@ -77,10 +75,9 @@
         "ingredients": "Cooked white rice — 2 cups\nEggs — 3\nFrozen peas and carrots — half cup\nSoy sauce — 2 tbsp\nSesame oil — 1 tsp\nGreen onions — 3\nGarlic — 2 cloves\nVegetable oil — 2 tbsp",
         "notes": "No notes added.",
         "calories": 380,
-        "dietaryTags": "Vegetarian, Dairy-Free",
+        "dietaryTags": {"tag": "Vegetarian, Dairy-Free"},
         "photoFullFilename": "Egg Fried Rice",
         "audioFullFilename": "Egg Fried Rice.m4a"
-
     },
     {
         "name": "Turkey and Spinach Stuffed Peppers",
@@ -88,10 +85,9 @@
         "ingredients": "Bell peppers — 4\nGround turkey — 400g\nFresh spinach — 2 cups\nMozzarella — half cup\nDiced tomatoes — 1 can\nGarlic — 3 cloves\nItalian seasoning — 1 tsp\nSalt and pepper — to taste",
         "notes": "Blanch the peppers in boiling water for 3 minutes before stuffing so they soften evenly in the oven. Cover with foil for the first 20 minutes of baking.",
         "calories": 430,
-        "dietaryTags": "Gluten-Free, High-Protein",
+        "dietaryTags": {"tag": "Gluten-Free, High-Protein"},
         "photoFullFilename": "Turkey and Spinach Stuffed Peppers",
         "audioFullFilename": "Turkey and Spinach Stuffed Peppers.m4a"
-
     },
     {
         "name": "Banana Peanut Butter Smoothie",
@@ -99,7 +95,7 @@
         "ingredients": "Banana — 1 frozen\nPeanut butter — 2 tbsp\nGreek yogurt — half cup\nAlmond milk — 1 cup\nHoney — 1 tsp\nProtein powder — 1 scoop (optional)",
         "notes": "No notes added.",
         "calories": 350,
-        "dietaryTags": "Vegetarian, High-Protein",
+        "dietaryTags": {"tag": "Vegetarian, High-Protein"},
         "photoFullFilename": "Banana Peanut Butter Smoothie",
         "audioFullFilename": "Banana Peanut Butter Smoothie.m4a"
     },
@@ -109,7 +105,7 @@
         "ingredients": "Shrimp — 200g\nMango — 1\nAvocado — 1\nMixed greens — 2 cups\nRed onion — quarter\nLime juice — 2 tbsp\nOlive oil — 1 tbsp\nChili flakes — pinch",
         "notes": "Grill the shrimp with a little chili and lime zest for extra flavor. Use ripe but firm mango so it holds its shape in the salad.",
         "calories": 310,
-        "dietaryTags": "Gluten-Free, Dairy-Free, High-Protein",
+        "dietaryTags": {"tag": "Gluten-Free, Dairy-Free, High-Protein"},
         "photoFullFilename": "Shrimp and Mango Salad",
         "audioFullFilename": "Shrimp and Mango Salad.m4a"
     },
@@ -119,7 +115,7 @@
         "ingredients": "Butternut squash — 400g\nCoconut milk — 1 can\nOnion — 1\nGarlic — 3 cloves\nGinger — 1 tsp\nCurry powder — 2 tsp\nGaram masala — 1 tsp\nVegetable broth — half cup\nOlive oil — 1 tbsp\nFresh cilantro — to serve",
         "notes": "Roast the squash cubes at 400°F for 15 minutes before adding to the curry for a deeper, caramelized flavor. The curry thickens considerably as it sits overnight.",
         "calories": 320,
-        "dietaryTags": "Vegan, Gluten-Free, Dairy-Free",
+        "dietaryTags": {"tag": "Vegan, Gluten-Free, Dairy-Free"},
         "photoFullFilename": "Butternut Squash Curry",
         "audioFullFilename": "Butternut Squash Curry.m4a"
     },
@@ -129,10 +125,9 @@
         "ingredients": "Canned tuna — 2 cans\nGreen beans — 1 cup\nEggs — 3\nCherry tomatoes — 8\nKalamata olives — 10\nRed potatoes — 2\nDijon mustard — 1 tsp\nRed wine vinegar — 2 tbsp\nOlive oil — 3 tbsp\nSalt and pepper — to taste",
         "notes": "Cook the potatoes and green beans ahead of time and chill them. Dress each component separately so nothing gets soggy.",
         "calories": 460,
-        "dietaryTags": "Gluten-Free, High-Protein, Dairy-Free",
+        "dietaryTags": {"tag": "Gluten-Free, High-Protein, Dairy-Free"},
         "photoFullFilename": "Tuna Nicoise Salad",
         "audioFullFilename": "Tuna Nicoise Salad.m4a"
-
     },
     {
         "name": "Sweet Potato and Black Bean Burrito",
@@ -140,10 +135,9 @@
         "ingredients": "Sweet potato — 1 large\nBlack beans — 1 can\nFlour tortillas — 2 large\nChipotle sauce — 2 tbsp\nShredded cheese — quarter cup\nLettuce — handful\nSour cream — 2 tbsp\nCumin — 1 tsp\nOlive oil — 1 tbsp",
         "notes": "No notes added.",
         "calories": 480,
-        "dietaryTags": "Vegetarian, High-Fiber",
+        "dietaryTags": {"tag": "Vegetarian, High-Fiber"},
         "photoFullFilename": "Sweet Potato and Black Bean Burrito",
         "audioFullFilename": "Sweet Potato.m4a"
-
     },
     {
         "name": "Miso Glazed Cod",
@@ -151,10 +145,9 @@
         "ingredients": "Cod fillets — 2\nWhite miso paste — 3 tbsp\nMirin — 2 tbsp\nSake or dry sherry — 1 tbsp\nSugar — 1 tsp\nSesame seeds — 1 tsp\nGreen onions — to serve",
         "notes": "Marinate the cod for at least 2 hours, or overnight for best results. Watch closely under the broiler as the miso sugar glaze can burn quickly.",
         "calories": 370,
-        "dietaryTags": "Gluten-Free, High-Protein, Dairy-Free",
+        "dietaryTags": {"tag": "Gluten-Free, High-Protein, Dairy-Free"},
         "photoFullFilename": "Miso Glazed Cod",
         "audioFullFilename": "Miso Glazed Cod.m4a"
-
     },
     {
         "name": "Caprese Pasta",
@@ -162,7 +155,7 @@
         "ingredients": "Penne pasta — 2 cups\nFresh mozzarella — 150g\nCherry tomatoes — 1 cup\nFresh basil — large handful\nBalsamic glaze — 2 tbsp\nOlive oil — 2 tbsp\nGarlic — 2 cloves\nSalt and pepper — to taste",
         "notes": "No notes added.",
         "calories": 510,
-        "dietaryTags": "Vegetarian",
+        "dietaryTags": {"tag": "Vegetarian"},
         "photoFullFilename": "Caprese Pasta",
         "audioFullFilename": "CapresePasta.m4a"
     },
@@ -172,10 +165,9 @@
         "ingredients": "Cooked white rice — 2 cups\nGround beef — 250g\nSpinach — 1 cup\nCarrot — 1\nZucchini — 1\nEggs — 2\nGochujang — 2 tbsp\nSoy sauce — 2 tbsp\nSesame oil — 1 tsp\nGarlic — 2 cloves\nSugar — 1 tsp",
         "notes": "Use a hot cast iron skillet to get the crispy rice bottom known as nurungji. Place all toppings in separate sections for the traditional presentation before mixing.",
         "calories": 570,
-        "dietaryTags": "Dairy-Free, High-Protein",
+        "dietaryTags": {"tag": "Dairy-Free, High-Protein"},
         "photoFullFilename": "Korean Beef Bibimbap",
         "audioFullFilename": "Korean Beef Bibimbap.m4a"
-
     },
     {
         "name": "Chia Seed Pudding with Mango",
@@ -183,7 +175,7 @@
         "ingredients": "Chia seeds — quarter cup\nCoconut milk — 1 cup\nMaple syrup — 1 tbsp\nVanilla extract — half tsp\nMango — 1 large\nLime juice — 1 tsp\nToasted coconut flakes — 1 tbsp",
         "notes": "No notes added.",
         "calories": 280,
-        "dietaryTags": "Vegan, Gluten-Free, Dairy-Free",
+        "dietaryTags": {"tag": "Vegan, Gluten-Free, Dairy-Free"},
         "photoFullFilename": "Chia Seed Pudding with Mango",
         "audioFullFilename": "Chia Seed.m4a"
     }

@@ -16,7 +16,7 @@ fileprivate var audioRecorder: AVAudioRecorder!
 fileprivate var temporaryVoiceRecordingFilename = ""
 
 struct AddRecipe: View {
-
+    
     // Enable this view to be dismissed to go back to the previous view
     @Environment(\.dismiss) private var dismiss
     
@@ -33,7 +33,7 @@ struct AddRecipe: View {
     @State private var caloriesText = ""
     @State private var voiceMemoTitle = ""
     @State private var recordingVoice = false
-
+    
     
     //------------------------------------
     // Image Picker from Camera or Library
@@ -55,9 +55,9 @@ struct AddRecipe: View {
     // Alert Message
     //--------------
     @State private var showAlertMessage = false
-
+    
     var body: some View {
-      
+        
         let camera = Binding(
             get: { useCamera },
             set: {
@@ -114,7 +114,7 @@ struct AddRecipe: View {
                 Section(header: Text("Speech Converted to Text")) {
                     Text(speechConvertedToText)
                         .multilineTextAlignment(.leading)
-                        // vertical=true enables the text to wrap around on multiple lines
+                    // vertical=true enables the text to wrap around on multiple lines
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
@@ -159,16 +159,16 @@ struct AddRecipe: View {
                         showAlertMessage = true
                         alertTitle = "Missing Input Data!"
                         alertMessage = "Required Data: Recipe name, ingredients, and calories."
-                            //not sure if this is true
+                        //not sure if this is true
                     }
                 }
             }
         }   // End of toolbar
-    
+        
         .onDisappear() {
             speechConvertedToText = ""
         }
-    
+        
         .alert(alertTitle, isPresented: $showAlertMessage, actions: {
             Button("OK") {
                 if alertTitle == "New Recipe Saved!" {
@@ -179,7 +179,7 @@ struct AddRecipe: View {
         }, message: {
             Text(alertMessage)
         })
-    
+        
         .onChange(of: pickedUIImage) {
             guard let uiImagePicked = pickedUIImage else { return }
             
@@ -221,7 +221,7 @@ struct AddRecipe: View {
             recordAndRecognizeSpeech()
         }
     }
-  
+    
     func cancelSpeechToTextRecording() {
         request.endAudio()
         audioEngine.inputNode.removeTap(onBus: 0)
@@ -321,36 +321,51 @@ struct AddRecipe: View {
         }
     }
     
-
+    
     func saveNewRecipe() {
-
-        //--------------------------------------------------
-        // Store Taken or Picked Photo to Document Directory
-        //--------------------------------------------------
         
+        //--------------------------------------------------
+        // Store photo to Documents directory
+        //--------------------------------------------------
         let photoFullFilename = UUID().uuidString + ".jpg"
         
-        if let photoData = pickedUIImage {
-            if let jpegData = photoData.jpegData(compressionQuality: 1.0) {
-                let fileUrl = documentDirectory.appendingPathComponent(photoFullFilename)
-                try? jpegData.write(to: fileUrl)
-            }
-        } else {
+        guard let pickedUIImage,
+              let jpegData = pickedUIImage.jpegData(compressionQuality: 1.0)
+        else {
             fatalError("Picked or taken photo is not available!")
         }
-        /*let newAudioFullFilename = UUID().uuidString + ".m4a"
-        let temporaryFile = documentDirectory.appendingPathComponent(temporaryVoiceRecordingFilename)
-        let finalFile = documentDirectory.appendingPathComponent(newAudioFullFilename)
-        do {
-            try FileManager.default.moveItem(at: temporaryFile, to: finalFile)
-        } catch {
-            fatalError("Unable to rename the temporary voice recording file in document directory")
-        }*/
         
-        let newRecipe = Recipe(name: recipeName, briefDescription: briefDesctiption, ingredients: ingredients, notes: speechConvertedToText, calories: Int(caloriesText) ?? 0, dietaryTags: dietaryTags, photoFullFilename: photoFullFilename, audioFullFilename: audioFullFilename)//newaudiofilename
+        let fileUrl = documentDirectory.appendingPathComponent(photoFullFilename)
+        try? jpegData.write(to: fileUrl)
         
-        // ❎ Insert it into the database context
+        //--------------------------------------------------
+        // Handle Dietary Tag (FIXED)
+        //--------------------------------------------------
+        let trimmedTag = dietaryTags.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        var tagObject: DietaryTags? = nil
+        
+        if !trimmedTag.isEmpty {
+            tagObject = DietaryTags(name: trimmedTag, recipe: [])
+        }
+        
+        //--------------------------------------------------
+        // Create Recipe (ONLY ONCE)
+        //--------------------------------------------------
+        let newRecipe = Recipe(
+            name: recipeName,
+            briefDescription: briefDesctiption,
+            ingredients: ingredients,
+            notes: speechConvertedToText,
+            calories: Int(caloriesText) ?? 0,
+            dietaryTags: tagObject,
+            photoFullFilename: photoFullFilename,
+            audioFullFilename: audioFullFilename
+        )
+        
+        //--------------------------------------------------
+        // Save to SwiftData
+        //--------------------------------------------------
         modelContext.insert(newRecipe)
-    }   // End of func saveNewParkVisit()
+    }
 }
-

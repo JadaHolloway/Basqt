@@ -181,13 +181,16 @@ class Recipe {
     var briefDescription: String
     var ingredients: String
     var notes: String
+    
     var calories: Int
-    var dietaryTags: String
     var photoFullFilename: String
     var audioFullFilename: String
+    
+    
+    @Relationship(deleteRule: .nullify) var dietaryTags: DietaryTags?
 
     init(name: String, briefDescription: String, ingredients: String, notes: String,
-         calories: Int, dietaryTags: String, photoFullFilename: String, audioFullFilename:String) {
+         calories: Int, dietaryTags: DietaryTags?, photoFullFilename: String, audioFullFilename:String) {
         self.name = name
         self.briefDescription = briefDescription
         self.ingredients = ingredients
@@ -196,5 +199,25 @@ class Recipe {
         self.dietaryTags = dietaryTags
         self.photoFullFilename = photoFullFilename
         self.audioFullFilename = audioFullFilename
+    }
+}
+
+@Model
+final class DietaryTags {
+    
+    // Attribute
+    // Ensure that the Cuisine name is unique among all Cuisine names
+    @Attribute(.unique) var name: String
+    
+    // One-to-Many Relationship: ONE Cuisine can contain MANY Recipes
+    
+    // If Cuisine is deleted, recipe's relationship to Cuisine is nullified
+    @Relationship(deleteRule: .nullify) var recipe: [Recipe]?
+    
+    // List of Recipe objects are the ones contained in the Cuisine
+    
+    init(name: String, recipe: [Recipe]) {
+        self.name = name
+        self.recipe = recipe
     }
 }

@@ -3,7 +3,7 @@
         "name": "Weekly Groceries",
         "dateCreated": "April 25, 2026",
         "isCompleted": false,
-        "numberItems": "3",
+        "numberItems": "5",
         "groceryItemStructs": [
             {
                 "name": "Organic Whole Milk",
@@ -43,6 +43,32 @@
                 "notes": "",
                 "isChecked": false,
                 "barcode": ""
+            },
+            {
+                "name": "Bananas",
+                "brand": "",
+                "quantity": 6,
+                "calories": 105,
+                "fat": "0g",
+                "carbs": "27g",
+                "protein": "1g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Eggs",
+                "brand": "",
+                "quantity": 12,
+                "calories": 70,
+                "fat": "5g",
+                "carbs": "0g",
+                "protein": "6g",
+                "allergens": "Eggs",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
             }
         ]
     },
@@ -50,7 +76,7 @@
         "name": "Party Supplies",
         "dateCreated": "April 25, 2026",
         "isCompleted": false,
-        "numberItems": "3",
+        "numberItems": "6",
         "groceryItemStructs": [
             {
                 "name": "Paper Plates",
@@ -82,6 +108,311 @@
                 "name": "Napkins",
                 "brand": "",
                 "quantity": 2,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Plastic Forks",
+                "brand": "",
+                "quantity": 1,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Trash Bags",
+                "brand": "",
+                "quantity": 1,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Table Cloth",
+                "brand": "",
+                "quantity": 1,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            }
+        ]
+    },
+    {
+        "name": "Healthy Snacks",
+        "dateCreated": "April 26, 2026",
+        "isCompleted": false,
+        "numberItems": "4",
+        "groceryItemStructs": [
+            {
+                "name": "Greek Yogurt",
+                "brand": "Chobani",
+                "quantity": 4,
+                "calories": 120,
+                "fat": "5g",
+                "carbs": "8g",
+                "protein": "12g",
+                "allergens": "Dairy",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Almonds",
+                "brand": "",
+                "quantity": 1,
+                "calories": 160,
+                "fat": "14g",
+                "carbs": "6g",
+                "protein": "6g",
+                "allergens": "Nuts",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Protein Bars",
+                "brand": "Clif",
+                "quantity": 6,
+                "calories": 250,
+                "fat": "7g",
+                "carbs": "29g",
+                "protein": "10g",
+                "allergens": "Nuts",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Apple Slices",
+                "brand": "",
+                "quantity": 3,
+                "calories": 95,
+                "fat": "0g",
+                "carbs": "25g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            }
+        ]
+    },
+    {
+        "name": "Breakfast Essentials",
+        "dateCreated": "April 26, 2026",
+        "isCompleted": false,
+        "numberItems": "3",
+        "groceryItemStructs": [
+            {
+                "name": "Eggs",
+                "brand": "",
+                "quantity": 12,
+                "calories": 70,
+                "fat": "5g",
+                "carbs": "0g",
+                "protein": "6g",
+                "allergens": "Eggs",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Oatmeal",
+                "brand": "Quaker",
+                "quantity": 1,
+                "calories": 150,
+                "fat": "3g",
+                "carbs": "27g",
+                "protein": "5g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Bananas",
+                "brand": "",
+                "quantity": 6,
+                "calories": 105,
+                "fat": "0g",
+                "carbs": "27g",
+                "protein": "1g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            }
+        ]
+    },
+    {
+        "name": "Dinner Ingredients",
+        "dateCreated": "April 27, 2026",
+        "isCompleted": false,
+        "numberItems": "5",
+        "groceryItemStructs": [
+            {
+                "name": "Chicken Breast",
+                "brand": "",
+                "quantity": 2,
+                "calories": 200,
+                "fat": "4g",
+                "carbs": "0g",
+                "protein": "35g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Pasta",
+                "brand": "Barilla",
+                "quantity": 1,
+                "calories": 210,
+                "fat": "1g",
+                "carbs": "42g",
+                "protein": "7g",
+                "allergens": "Gluten",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Tomato Sauce",
+                "brand": "",
+                "quantity": 1,
+                "calories": 90,
+                "fat": "2g",
+                "carbs": "18g",
+                "protein": "2g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Olive Oil",
+                "brand": "",
+                "quantity": 1,
+                "calories": 120,
+                "fat": "14g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Garlic",
+                "brand": "",
+                "quantity": 3,
+                "calories": 5,
+                "fat": "0g",
+                "carbs": "1g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            }
+        ]
+    },
+    {
+        "name": "Cleaning Supplies",
+        "dateCreated": "April 27, 2026",
+        "isCompleted": false,
+        "numberItems": "6",
+        "groceryItemStructs": [
+            {
+                "name": "Dish Soap",
+                "brand": "Dawn",
+                "quantity": 1,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Paper Towels",
+                "brand": "",
+                "quantity": 2,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "All-Purpose Cleaner",
+                "brand": "Clorox",
+                "quantity": 1,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Sponges",
+                "brand": "",
+                "quantity": 3,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Gloves",
+                "brand": "",
+                "quantity": 1,
+                "calories": 0,
+                "fat": "0g",
+                "carbs": "0g",
+                "protein": "0g",
+                "allergens": "",
+                "notes": "",
+                "isChecked": false,
+                "barcode": ""
+            },
+            {
+                "name": "Trash Bags",
+                "brand": "",
+                "quantity": 1,
                 "calories": 0,
                 "fat": "0g",
                 "carbs": "0g",

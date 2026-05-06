@@ -61,9 +61,13 @@ struct RecipeStruct: Decodable {
     var ingredients: String
     var notes: String
     var calories: Int
-    var dietaryTags: String
+    var dietaryTags: DietaryTag
     var photoFullFilename: String
     var audioFullFilename: String
+
+}
+struct DietaryTag: Decodable {
+    var tag: String
 }
 
 /*

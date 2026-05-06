@@ -65,7 +65,11 @@ struct RecipeDetails: View {
                     Text(" \(recipe.calories) kcal")
                 }
                 Section(header: Text("Dietary Tags")) {
-                    Text(recipe.dietaryTags)
+                    if let tag = recipe.dietaryTags {
+                        Text(tag.name)
+                    } else {
+                        Text("No dietary tag")
+                    }
                 }
                 Section(header: Text("Ingredients")) {
                     Text(recipe.ingredients)

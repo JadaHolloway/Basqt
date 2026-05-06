@@ -23,6 +23,10 @@ struct MainView: View {
             Tab("Map", systemImage: "map") {
                 NearbyStoresView()
             }
+            Tab("Search DB", systemImage: "magnifyingglass")
+            {
+                SearchDatabase()
+            }
             Tab("Game", systemImage: "gamecontroller") {
                 GameView()
             }

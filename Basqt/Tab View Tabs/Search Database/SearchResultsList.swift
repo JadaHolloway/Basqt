@@ -12,7 +12,7 @@ struct SearchResultsList: View {
     var body: some View {
         List {
             ForEach(databaseSearchResults) { aFoundRecipe in
-                NavigationLink(destination: SearchResultDetails(recipe: aFoundRecipe)) {
+                NavigationLink(destination: SearchRecipeDetails(recipe: aFoundRecipe, audioPlayer: AudioPlayer())) {
                     SearchResultItem(recipe: aFoundRecipe)
                 }
             }

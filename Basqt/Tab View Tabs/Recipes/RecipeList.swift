@@ -77,14 +77,13 @@ struct RecipeList: View {
         
     }   // End of body var
     
-    // Search Bar: 4 of 4 --> Compute filtered results
     var filteredRecipes: [Recipe] {
         if searchText.isEmpty {
-            listOfAllRecipesInDatabase
+            return listOfAllRecipesInDatabase
         } else {
-            listOfAllRecipesInDatabase.filter {
+            return listOfAllRecipesInDatabase.filter {
                 $0.name.localizedStandardContains(searchText) ||
-                $0.dietaryTags.localizedStandardContains(searchText)
+                ($0.dietaryTags?.name.localizedStandardContains(searchText) ?? false)
             }
         }
     }

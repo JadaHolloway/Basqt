@@ -28,7 +28,7 @@ public func conductDatabaseSearch() {
 
     do {
         // Create a database container to manage database objects Recipe, Cuisine, Publisher, Ingredient, and Nutrient
-        modelContainer = try ModelContainer(for: Recipe.self, Cuisine.self, Publisher.self, Ingredient.self, Nutrient.self)
+        modelContainer = try ModelContainer(for: Recipe.self, DietaryTags.self)
     } catch {
         fatalError("Unable to create ModelContainer")
     }
@@ -59,7 +59,7 @@ public func conductDatabaseSearch() {
         // 2️⃣ Define the Fetch Descriptor
         let nameFetchDescriptor = FetchDescriptor<Recipe>(
             predicate: namePredicate,
-            sortBy: [SortDescriptor(\Recipe.category, order: .forward), SortDescriptor(\Recipe.name, order: .forward)]
+            sortBy: [SortDescriptor(\Recipe.name, order: .forward), SortDescriptor(\Recipe.name, order: .forward)]
         )
         
         // 3️⃣ Execute the Fetch Request
@@ -68,170 +68,55 @@ public func conductDatabaseSearch() {
         } catch {
             fatalError("Unable to fetch name data from the database")
         }
+    
         
-    case "Recipe Category":
+    case "Dietary Tag":
         // 1️⃣ Define the Search Criterion (Predicate)
-        let categoryPredicate = #Predicate<Recipe> {
-            $0.category.localizedStandardContains(searchQuery)
-        }
-        
-        // 2️⃣ Define the Fetch Descriptor
-        let categoryFetchDescriptor = FetchDescriptor<Recipe>(
-            predicate: categoryPredicate,
-            sortBy: [SortDescriptor(\Recipe.category, order: .forward), SortDescriptor(\Recipe.name, order: .forward)]
-        )
-        
-        // 3️⃣ Execute the Fetch Request
-        do {
-            databaseSearchResults = try modelContext.fetch(categoryFetchDescriptor)
-        } catch {
-            fatalError("Unable to fetch category data from the database")
-        }
-        
-    case "Cuisine Name":
-        // 1️⃣ Define the Search Criterion (Predicate)
-        let cuisinePredicate = #Predicate<Cuisine> {
+        let dietaryTagsPredicate = #Predicate<DietaryTags> {
             $0.name == searchQuery
         }
         
         // 2️⃣ Define the Fetch Descriptor
-        let cuisineFetchDescriptor = FetchDescriptor<Cuisine>(
-            predicate: cuisinePredicate,
-            sortBy: [SortDescriptor(\Cuisine.name, order: .forward)]
+        let dietaryTagsFetchDescriptor = FetchDescriptor<DietaryTags>(
+            predicate: dietaryTagsPredicate,
+            sortBy: [SortDescriptor(\DietaryTags.name, order: .forward)]
         )
         
-        var cuisineResultsArray = [Cuisine]()
+        var dietaryTagsResultsArray = [DietaryTags]()
         
         // 3️⃣ Execute the Fetch Request
         do {
-            cuisineResultsArray = try modelContext.fetch(cuisineFetchDescriptor)
+            dietaryTagsResultsArray = try modelContext.fetch(dietaryTagsFetchDescriptor)
             
-            if cuisineResultsArray.isEmpty {
+            if dietaryTagsResultsArray.isEmpty {
                 // databaseSearchResults will be empty
                 return
             }
             // cuisineResultsArray[0] is the found cuisine
-            databaseSearchResults = cuisineResultsArray[0].recipes!
+            databaseSearchResults = dietaryTagsResultsArray[0].recipe!
             
         } catch {
             fatalError("Unable to fetch cuisine data from the database")
         }
         
-    case "Publisher Name":
-        // 1️⃣ Define the Search Criterion (Predicate)
-        let publisherPredicate = #Predicate<Publisher> {
-            $0.name == searchQuery
-        }
-        
-        // 2️⃣ Define the Fetch Descriptor
-        let publisherFetchDescriptor = FetchDescriptor<Publisher>(
-            predicate: publisherPredicate,
-            sortBy: [SortDescriptor(\Publisher.name, order: .forward)]
-        )
-        
-        var publisherResultsArray = [Publisher]()
-        
-        // 3️⃣ Execute the Fetch Request
-        do {
-            publisherResultsArray = try modelContext.fetch(publisherFetchDescriptor)
-            
-            if publisherResultsArray.isEmpty {
-                // databaseSearchResults will be empty
-                return
-            }
-            // publisherResultsArray[0] is the found publisher
-            databaseSearchResults = publisherResultsArray[0].recipes!
-            
-        } catch {
-            fatalError("Unable to fetch publisher data from the database")
-        }
-    case "Ingredient Name":
-        // 1️⃣ Define the Search Criterion (Predicate)
-        let ingredientPredicate = #Predicate<Ingredient> {
-            $0.name.localizedStandardContains(searchQuery)
-        }
-        
-        // 2️⃣ Define the Fetch Descriptor
-        let ingredientFetchDescriptor = FetchDescriptor<Ingredient>(
-            predicate: ingredientPredicate,
-            sortBy: [SortDescriptor(\Ingredient.name, order: .forward)]
-        )
-        
-        var foundIngredients = [Ingredient]()
-        var foundRecipes = [Recipe]()
-        
-        // 3️⃣ Execute the Fetch Request
-        do {
-            foundIngredients = try modelContext.fetch(ingredientFetchDescriptor)
-            
-            if foundIngredients.isEmpty {
-                // databaseSearchResults will be empty
-                return
-            }
-            
-            // For each found ingredient, append its recipes to foundRecipes
-            for anIngredient in foundIngredients {
-                for aRecipe in anIngredient.recipes! {
-                    foundRecipes.append(aRecipe)
-                }
-            }
-            
-            /*
-             A search query, e.g., chicken, may be contained in N ingredients of a recipe.
-             For example, 'chicken' is contained in the following 3 ingredients of the same recipe:
-             
-             Ingredient 1: ½ pound of raw boneless chicken meat
-             Ingredient 2: ¼ pound of chicken skin and fat
-             Ingredient 3: 8 cups of store-bought or homemade chicken broth
-             
-             Each ingredient with name containing the same search query will
-             return the same recipe N times. Therefore, duplicate recipes must be removed.
-             */
-            
-            databaseSearchResults = foundRecipes.removeDuplicates()
-            
-        } catch {
-            fatalError("Unable to fetch ingredient data from the database")
-        }
-        
-    case "Nutrient Name":
-        // 1️⃣ Define the Search Criterion (Predicate)
-        let ingredientPredicate = #Predicate<Nutrient> {
-            $0.name.localizedStandardContains(nutrientName) &&
-            $0.amount <= maxNutrientAmount
-        }
-        
-        // 2️⃣ Define the Fetch Descriptor
-        let nutrientFetchDescriptor = FetchDescriptor<Nutrient>(
-            predicate: ingredientPredicate,
-            sortBy: [SortDescriptor(\Nutrient.name, order: .forward)]
-        )
-        
-        var foundNutrients = [Nutrient]()
-        var foundRecipes = [Recipe]()
-        
-        // 3️⃣ Execute the Fetch Request
-        do {
-            foundNutrients = try modelContext.fetch(nutrientFetchDescriptor)
-            
-            if foundNutrients.isEmpty {
-                // databaseSearchResults will be empty
-                return
-            }
+    case "Calories":
 
-            // For each found nutrient, append its recipes to foundNutrients
-            for aNutrient in foundNutrients {
-                for aRecipe in aNutrient.recipes! {
-                    foundRecipes.append(aRecipe)
-                }
-            }
-            
-            databaseSearchResults = foundRecipes
-            
-        } catch {
-            fatalError("Unable to fetch nutrient data from the database")
+        let maxCalories = Int(maxNutrientAmount)
+
+        let caloriePredicate = #Predicate<Recipe> {
+            $0.calories <= maxCalories
         }
-        
+
+        let calorieFetchDescriptor = FetchDescriptor<Recipe>(
+            predicate: caloriePredicate,
+            sortBy: [SortDescriptor(\Recipe.calories)]
+        )
+
+        do {
+            databaseSearchResults = try modelContext.fetch(calorieFetchDescriptor)
+        } catch {
+            fatalError("Unable to fetch calorie data")
+        }
     default:
         print("Search category is out of range!")
     }

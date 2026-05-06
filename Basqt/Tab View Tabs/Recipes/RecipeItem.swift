@@ -38,7 +38,9 @@ struct RecipeItem: View {
             
             VStack(alignment: .leading) {
                 Text(recipe.name)
-                Text(recipe.dietaryTags)
+                Text(recipe.dietaryTags?.name ?? "No Tag")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
             }
             // Set font and size for the whole VStack content
             .font(.system(size: 14))

@@ -24,7 +24,7 @@ public func createBasqtDatabase() {
     do {
         modelContainer = try ModelContainer(for: Weather.self, FoodProduct.self,
                                                 OpenStreetStore.self, GroceryList.self,
-                                                GroceryItem.self, Recipe.self)
+                                            GroceryItem.self, Recipe.self, DietaryTags.self)
     } catch {
         print(error)
         return
@@ -101,77 +101,62 @@ public func createBasqtDatabase() {
      *   Recipe Object Creation  *
      ****************************
      */
+    /*
+     ****************************
+     *   Recipe Object Creation  *
+     ****************************
+     */
+    /*
+     ****************************
+     *   Recipe Object Creation  *
+     ****************************
+     */
     var recipeStructList = [RecipeStruct]()
 
-    recipeStructList = decodeJsonFileIntoArrayOfStructs(fullFilename: "DBInitialContent-Recipes.json", fileLocation: "Main Bundle")
+    recipeStructList = decodeJsonFileIntoArrayOfStructs(
+        fullFilename: "DBInitialContent-Recipes.json",
+        fileLocation: "Main Bundle"
+    )
+
+    // Prevent duplicate tags
+    var dietaryTagDictionary: [String: DietaryTags] = [:]
 
     for aRecipeStruct in recipeStructList {
+
         let filenameComponents = aRecipeStruct.audioFullFilename.components(separatedBy: ".")
-        copyFileFromMainBundleToDocumentDirectory(filename: filenameComponents[0], fileExtension: filenameComponents[1])
-        
+        copyFileFromMainBundleToDocumentDirectory(
+            filename: filenameComponents[0],
+            fileExtension: filenameComponents[1]
+        )
+
+        // ✅ Get tag string from JSON
+        let tagName = aRecipeStruct.dietaryTags.tag
+
+        // ✅ Reuse or create DietaryTags object
+        let tagObject: DietaryTags
+        if let existingTag = dietaryTagDictionary[tagName] {
+            tagObject = existingTag
+        } else {
+            let newTag = DietaryTags(name: tagName, recipe: [])
+            modelContext.insert(newTag)
+            dietaryTagDictionary[tagName] = newTag
+            tagObject = newTag
+        }
+
+        // ✅ Create recipe WITH relationship
         let newRecipe = Recipe(
             name: aRecipeStruct.name,
             briefDescription: aRecipeStruct.briefDescription,
             ingredients: aRecipeStruct.ingredients,
             notes: aRecipeStruct.notes,
             calories: aRecipeStruct.calories,
-            dietaryTags: aRecipeStruct.dietaryTags,
+            dietaryTags: tagObject,
             photoFullFilename: aRecipeStruct.photoFullFilename,
             audioFullFilename: aRecipeStruct.audioFullFilename
         )
+
         modelContext.insert(newRecipe)
-    }   // End of for loop
-
-    /*
-     *********************************
-     *   FoodProduct Object Creation  *
-     *********************************
-     */
-    var foodProductStructList = [FoodProductStruct]()
-
-    foodProductStructList = decodeJsonFileIntoArrayOfStructs(fullFilename: "DBInitialContent-FoodProducts.json", fileLocation: "Main Bundle")
-
-    for aProductStruct in foodProductStructList {
-        let newProduct = FoodProduct(
-            productName: aProductStruct.productName,
-            brands: aProductStruct.brands,
-            categories: aProductStruct.categories,
-            ingredientsText: aProductStruct.ingredientsText,
-            energyKcal: aProductStruct.energyKcal,
-            fat: aProductStruct.fat,
-            saturatedFat: aProductStruct.saturatedFat,
-            carbohydrates: aProductStruct.carbohydrates,
-            sugars: aProductStruct.sugars,
-            proteins: aProductStruct.proteins,
-            salt: aProductStruct.salt
-        )
-        modelContext.insert(newProduct)
-    }   // End of for loop
-
-    /*
-     ************************************
-     *   FavoriteStore Object Creation   *
-     ************************************
-     */
-    var favoriteStoreStructList = [FavoriteStoreStruct]()
-
-    favoriteStoreStructList = decodeJsonFileIntoArrayOfStructs(fullFilename: "DBInitialContent-FavoriteStores.json", fileLocation: "Main Bundle")
-
-    for aStoreStruct in favoriteStoreStructList {
-        let newStore = OpenStreetStore(
-            latitude: aStoreStruct.latitude,
-            longitude: aStoreStruct.longitude,
-            name: aStoreStruct.name,
-            shop: aStoreStruct.shop,
-            street: aStoreStruct.street,
-            city: aStoreStruct.city,
-            state: aStoreStruct.state,
-            openingHours: aStoreStruct.openingHours,
-            phoneNumber: aStoreStruct.phoneNumber,
-            websiteURL: aStoreStruct.websiteURL
-        )
-        modelContext.insert(newStore)
-    }   // End of for loop
+    }
 
     /*
      =================================

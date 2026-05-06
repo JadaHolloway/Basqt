@@ -1,41 +1,29 @@
-//
-//  SearchDatabase.swift
-//  Recipes
-//
-//  Created by Osman Balci on 3/4/26.
-//  Copyright © 2026 Osman Balci. All rights reserved.
-//
-
 import SwiftUI
 import SwiftData
 
 struct SearchDatabase: View {
     
-    // ❎ Fetch all Cuisine objects from the database
-    @Query(FetchDescriptor<Cuisine>(sortBy: [SortDescriptor(\Cuisine.name, order: .forward)])) private var listOfAllCuisinesInDatabase: [Cuisine]
+    @Query(FetchDescriptor<Recipe>(sortBy: [SortDescriptor(\Recipe.name, order: .forward)]))
+    private var listOfAllRecipesInDatabase: [Recipe]
     
-    // ❎ Fetch all Publisher objects from the database
-    @Query(FetchDescriptor<Publisher>(sortBy: [SortDescriptor(\Publisher.name, order: .forward)])) private var listOfAllPublishersInDatabase: [Publisher]
+    @Query(FetchDescriptor<DietaryTags>(sortBy: [SortDescriptor(\DietaryTags.name, order: .forward)]))
+    private var listOfAllDietaryTagsInDatabase: [DietaryTags]
     
-    @State private var selectedPublisherIndex = 5
-    @State private var selectedCuisineIndex = 5
+    let standardNutrients = ["Calories"]
     
-    let standardNutrients = ["Calories", "Cholesterol", "Dietary Fiber", "Protein", "Saturated Fat", "Sodium", "Sugars", "Total Carbohydrate", "Total Fat"]
-    
-    @State private var selectedNutrientIndex = 4        // Saturated Fat
-    @State private var nutrientAmountTextFieldValue = ""
-    @State private var nutrientAmount = 0.0
-    
+    @State private var selectedDietaryTagIndex = 0
     @State private var searchFieldValue = ""
+    @State private var nutrientAmountTextFieldValue = ""
+    @State private var nutrientAmount: Double = 0
+    
+    @State private var selectedCategoryIndex = 0
     @State private var searchCompleted = false
     
-    //--------------
-    // Alert Message
-    //--------------
     @State private var showAlertMessage = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
     
-    let searchCategories = ["Recipe Name", "Recipe Category", "Cuisine Name", "Publisher Name", "Ingredient Name", "Nutrient Name"]
-    @State private var selectedCategoryIndex = 2
+    let searchCategories = ["Recipe Name", "Dietary Tag", "Calories"]
     
     var body: some View {
         NavigationStack {
@@ -50,97 +38,63 @@ struct SearchDatabase: View {
                         Spacer()
                     }
                 }
+                
+                // CATEGORY PICKER
                 Section(header: Text("Select Search Category")) {
                     Picker("", selection: $selectedCategoryIndex) {
-                        ForEach(0 ..< searchCategories.count, id: \.self) {
+                        ForEach(0..<searchCategories.count, id: \.self) {
                             Text(searchCategories[$0])
                         }
                     }
                 }
+                
+                // NAME SEARCH
+                if selectedCategoryIndex == 0 {
+                    Section(header: Text("Recipe Name")) {
+                        TextField("Enter search text", text: $searchFieldValue)
+                            .textFieldStyle(.roundedBorder)
+                    }
+                }
+                
+                // DIETARY TAG SEARCH
+                if selectedCategoryIndex == 1 {
+                    Section(header: Text("Select Dietary Tag")) {
+                        Picker("", selection: $selectedDietaryTagIndex) {
+                            ForEach(0..<listOfAllDietaryTagsInDatabase.count, id: \.self) { index in
+                                Text(listOfAllDietaryTagsInDatabase[index].name)
+                            }
+                        }
+                    }
+                }
+                
+                // CALORIES SEARCH
                 if selectedCategoryIndex == 2 {
-                    Section(header: Text("Select a Cuisine")) {
-                        Picker("", selection: $selectedCuisineIndex) {
-                            ForEach(0 ..< listOfAllCuisinesInDatabase.count, id: \.self) {
-                                Text(listOfAllCuisinesInDatabase[$0].name).tag($0)
-                            }
-                        }
+                    Section(header: Text("Maximum Calories")) {
+                        TextField("Enter calories", text: $nutrientAmountTextFieldValue)
+                            .textFieldStyle(.roundedBorder)
+                            .keyboardType(.numberPad)
                     }
                 }
-                if selectedCategoryIndex == 3 {
-                    Section(header: Text("Select a Publisher")) {
-                        Picker("", selection: $selectedPublisherIndex) {
-                            ForEach(0 ..< listOfAllPublishersInDatabase.count, id: \.self) {
-                                Text(listOfAllPublishersInDatabase[$0].name).tag($0)
-                            }
-                        }
-                    }
-                }
-                if selectedCategoryIndex == 5 {
-                    Section(header: Text("Select a Nutrient")) {
-                        Picker("", selection: $selectedNutrientIndex) {
-                            ForEach(0 ..< standardNutrients.count, id: \.self) {
-                                Text(standardNutrients[$0])
-                            }
-                        }
-                    }
-                    Section(header: Text("Search recipes with selected nutrient's amount <= amount given below. Return after entering the value.")) {
-                        HStack {
-                            TextField("Enter Nutrient Amount", text: $nutrientAmountTextFieldValue)
-                                .textFieldStyle(.roundedBorder)
-                                .keyboardType(.numbersAndPunctuation)
-                                .onSubmit {
-                                    if let amount = Double(nutrientAmountTextFieldValue) {
-                                        nutrientAmount = amount
-                                    } else {
-                                        showAlertMessage = true
-                                        alertTitle = "Invalid Nutrient Amount!"
-                                        alertMessage = "Entered nutrient amount \(nutrientAmountTextFieldValue) is not a number."
-                                    }
-                                }
-                            
-                            // Button to clear the text field
-                            Button(action: {
-                                nutrientAmountTextFieldValue = ""
-                                nutrientAmount = 0.0
-                            }) {
-                                Image(systemName: "clear")
-                                    .imageScale(.medium)
-                                    .font(Font.title.weight(.regular))
-                            }
-                        }   // End of HStack
-                    }
-                }
-                if selectedCategoryIndex == 0 || selectedCategoryIndex == 1 || selectedCategoryIndex == 4 {
-                    Section(header: Text("\(searchCategories[selectedCategoryIndex])")) {
-                        HStack {
-                            TextField("Enter Search Query", text: $searchFieldValue)
-                                .textFieldStyle(.roundedBorder)
-                                .disableAutocorrection(true)
-                                .textInputAutocapitalization(.never)
-                            
-                            // Button to clear the text field
-                            Button(action: {
-                                searchFieldValue = ""
-                            }) {
-                                Image(systemName: "clear")
-                                    .imageScale(.medium)
-                                    .font(Font.title.weight(.regular))
-                            }
-                            
-                        }   // End of HStack
-                    }
-                }
+                
+                // SEARCH BUTTON
                 Section(header: Text("Search Database")) {
                     HStack {
                         Spacer()
                         Button(searchCompleted ? "Search Completed" : "Search") {
+                            
                             if inputDataValidated() {
-                                searchDB()
+                                
+                                if selectedCategoryIndex == 2 {
+                                    nutrientAmount = Double(nutrientAmountTextFieldValue) ?? 0
+                                }
+                                
+                                conductSearch()
                                 searchCompleted = true
+                                
                             } else {
+                                alertTitle = "Missing Input Data"
+                                alertMessage = "Please enter a valid search query."
                                 showAlertMessage = true
-                                alertTitle = "Missing Input Data!"
-                                alertMessage = "Please enter a database search query!"
                             }
                         }
                         .tint(.blue)
@@ -148,9 +102,11 @@ struct SearchDatabase: View {
                         .buttonBorderShape(.capsule)
                         
                         Spacer()
-                        
-                    }   // End of HStack
+                    }
+                    
                 }
+                
+                // RESULTS
                 if searchCompleted {
                     Section(header: Text("List Recipes Found")) {
                         NavigationLink(destination: showSearchResults) {
@@ -161,6 +117,7 @@ struct SearchDatabase: View {
                                 Text("List Recipes Found")
                                     .font(.system(size: 16))
                             }
+                            
                         }
                     }
                     Section(header: Text("Clear")) {
@@ -179,61 +136,44 @@ struct SearchDatabase: View {
                         }
                     }
                 }
-                
-            }   // End of Form
+            }
             .font(.system(size: 14))
             .navigationTitle("Search Database")
             .toolbarTitleDisplayMode(.inline)
-            .alert(alertTitle, isPresented: $showAlertMessage, actions: {
+            .alert(alertTitle, isPresented: $showAlertMessage) {
                 Button("OK") {}
-            }, message: {
+            } message: {
                 Text(alertMessage)
-            })
-            
-        }   // End of NavigationStack
-    }   // End of body var
-    
-    /*
-     ---------------------
-     MARK: Search Database
-     ---------------------
-     */
-    func searchDB() {
-        // Remove spaces, if any, at the beginning and at the end of the entered search query string
-        let queryTrimmed = searchFieldValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        /*
-         searchCategory, searchQuery, nutrientName, and maxNutrientAmount
-         are global search parameters defined in DatabaseSearch.swift
-         */
-        
-        searchCategory = searchCategories[selectedCategoryIndex]
-        
-        switch selectedCategoryIndex {
-        case 0,1:   // Recipe Name or Recipe Category
-            searchQuery = queryTrimmed
-        case 2:     // Cuisine Name
-            searchQuery = listOfAllCuisinesInDatabase[selectedCuisineIndex].name
-        case 3:     // Publisher Name
-            searchQuery = listOfAllPublishersInDatabase[selectedPublisherIndex].name
-        case 4:     // Ingredient Name
-            searchQuery = queryTrimmed
-        case 5:     // Nutrient Name
-            nutrientName = standardNutrients[selectedNutrientIndex]
-            maxNutrientAmount = nutrientAmount
-        default:
-            print("selectedIndex is out of range")
+            }
         }
-        
-        // Public function conductDatabaseSearch is given in DatabaseSearch.swift
-        conductDatabaseSearch()
     }
     
-    /*
-     -------------------------
-     MARK: Show Search Results
-     -------------------------
-     */
+    // MARK: - SEARCH LOGIC
+    func conductSearch() {
+        switch selectedCategoryIndex {
+            
+        case 0:
+            databaseSearchResults = listOfAllRecipesInDatabase.filter {
+                $0.name.localizedCaseInsensitiveContains(searchFieldValue)
+            }
+            
+        case 1:
+            let tag = listOfAllDietaryTagsInDatabase[selectedDietaryTagIndex].name
+            databaseSearchResults = listOfAllRecipesInDatabase.filter {
+                $0.dietaryTags?.name == tag
+            }
+            
+        case 2:
+            databaseSearchResults = listOfAllRecipesInDatabase.filter {
+                Double($0.calories) <= nutrientAmount
+            }
+            
+        default:
+            databaseSearchResults = []
+        }
+    }
+    
+    // MARK: - RESULTS VIEW
     var showSearchResults: some View {
         
         // Global array databaseSearchResults is given in DatabaseSearch.swift
@@ -246,32 +186,21 @@ struct SearchDatabase: View {
         return AnyView(SearchResultsList())
     }
     
-    /*
-     ---------------------------
-     MARK: Input Data Validation
-     ---------------------------
-     */
+    // MARK: - VALIDATION
     func inputDataValidated() -> Bool {
         
-        if selectedCategoryIndex == 0 || selectedCategoryIndex == 1 || selectedCategoryIndex == 4 {
-            // Remove spaces, if any, at the beginning and at the end of the entered search query string
-            let queryTrimmed = searchFieldValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        switch selectedCategoryIndex {
+        case 0:
+            return !searchFieldValue.trimmingCharacters(in: .whitespaces).isEmpty
             
-            if queryTrimmed.isEmpty {
-                return false
-            }
-        }
-        
-        if selectedCategoryIndex == 5 && nutrientAmount == 0.0 {
+        case 1:
+            return true
+            
+        case 2:
+            return !nutrientAmountTextFieldValue.trimmingCharacters(in: .whitespaces).isEmpty
+            
+        default:
             return false
         }
-        
-        return true
     }
-    
-}
-
-
-#Preview {
-    SearchDatabase()
 }
