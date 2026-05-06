@@ -1,3 +1,10 @@
+//
+//  HomeView.swift
+//  Basqt
+//
+//  Created by Osman Balci and Micki Ross on 5/4/26.
+//  Copyright © 2026 Osman Balci, Micki Ross, Jada Holloway, Jonathan Hernandez Velasquez. All rights reserved.
+//
 import SwiftUI
 import SwiftData
 

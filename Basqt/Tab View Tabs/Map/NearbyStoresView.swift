@@ -56,6 +56,7 @@ struct NearbyStoresView: View {
                 Map(position: $mapCameraPosition) {
                     UserAnnotation()
                     
+                    
                     ForEach(storeAnnotations) { loc in
                         Annotation(loc.store.name, coordinate: loc.coordinate) {
                             Image(systemName: "mappin.circle.fill")
@@ -124,27 +125,35 @@ struct NearbyStoresView: View {
             .navigationTitle("Nearby Stores")
             .toolbarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    NavigationLink(destination: CityStoresView()) {
+                        Text("Traveling?")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.blue)
+                    }
+                }
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: FavoritesView()) {
                         Image(systemName: "heart")
                     }
                 }
             }
-            .onAppear {
 
+            .onAppear {
                 let freshLocation = getUsersCurrentLocation()
                 userLocation = freshLocation
-                
+
                 mapCameraPosition = .region(
                     MKCoordinateRegion(
                         center: freshLocation,
                         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
                     )
                 )
-                
+
                 loadNearbyStores()
             }
-        }   // End of NavigationStack
+        }
     }
 
     // MARK: - Computed Properties

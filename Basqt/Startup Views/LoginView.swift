@@ -66,8 +66,17 @@ struct LoginView : View {
                     }
                     HStack {
                         Image(systemName: "lock.fill")
-                            .foregroundColor(.gray)
-                        SecureField("Password", text: $enteredPassword)
+                            .foregroundColor(.white)
+                        ZStack(alignment: .leading) {
+                            if enteredPassword.isEmpty {
+                                Text("Password")
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
+
+                            SecureField("", text: $enteredPassword)
+                                .foregroundColor(.white)
+                        }
+
                     }
                     .padding(.horizontal, 10)
                     .frame(width: 300, height: 42)
@@ -103,10 +112,15 @@ struct LoginView : View {
                         .background(
                             RoundedRectangle(cornerRadius: 15)
                                 .fill(Color(red: 0.14, green: 0.34, blue: 0.14))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(Color.black, lineWidth: 2)
+                                )
                         )
                         .buttonStyle(.borderedProminent)
                         .padding()
                         .foregroundColor(.white)
+                        
                         
                         if UserDefaults.standard.string(forKey: "SecurityQuestion") != nil {
                             NavigationLink(destination: ResetPassword()) {
@@ -124,6 +138,7 @@ struct LoginView : View {
                             .buttonBorderShape(.capsule)
                         }
                     }   // End of HStack
+                    
                     
                     /*
                      *********************************************************
@@ -172,6 +187,19 @@ struct LoginView : View {
                                 .padding()
                         }
                     }
+                    Text("Powered By")
+                        .font(.system(size: 18, weight: .light, design: .serif))
+                        .italic()
+                        .padding()
+                    
+                    // Show National Park Service API provider's website in default web browser
+                    Link(destination: URL(string: "https://openweathermap.org/api/one-call-3?collection=one_call_api_3.0")!) {
+                        HStack {
+                            Image(systemName: "gear")
+                            Text("Open Weather API")
+                        }
+                    }
+                    .padding(.bottom, 50)
                 }   // End of VStack
             }   // End of ScrollView
             }   // End of ZStack

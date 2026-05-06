@@ -1,9 +1,9 @@
 //
-//  SearchResultItem.swift
-//  Recipes
+//  HomeView.swift
+//  Basqt
 //
-//  Created by Osman Balci on 3/4/26.
-//  Copyright © 2026 Osman Balci. All rights reserved.
+//  Created by Osman Balci and Micki Ross on 5/4/26.
+//  Copyright © 2026 Osman Balci, Micki Ross, Jada Holloway, Jonathan Hernandez Velasquez. All rights reserved.
 //
 
 import SwiftUI
