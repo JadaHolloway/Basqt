@@ -8,7 +8,7 @@
 
 import SwiftUI
 import SwiftData
-internal import Combine
+import Combine
 
 struct FoodSlide: View {
     @Query private var recipes: [Recipe]
@@ -50,9 +50,17 @@ struct FoodSlide: View {
                                             .multilineTextAlignment(.center)
                                             .padding()
                                     }
-                                    Image(recipe.photoFilename)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
+                                    if recipe.photoFullFilename.isEmpty {
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .foregroundColor(.gray)
+                                            .padding()
+                                    } else {
+                                        Image(recipe.photoFullFilename)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                    }
                                 }
                                 .tag(index)
                             }
