@@ -27,7 +27,7 @@ struct MainView: View {
                 GameView()
             }
             Tab("Foods with Colors", systemImage: "fork.knife.circle") {
-                //FoodSlide()
+                FoodSlide()
             }
             Tab("Food Grid", systemImage: "square.grid.3x3") {
                 FoodsGridQuiz()

@@ -102,14 +102,6 @@ struct RecipeDetails: View {
                 .font(.system(size: 14))
                 .navigationTitle("Recipe Details")
                 .toolbarTitleDisplayMode(.inline).toolbar {
-                    ToolbarItem() {
-                        Button(action: {
-                            print("PDF Export for \(recipe.name)")
-                        }) {
-                            //Image(systemName: doc.text)
-                            //add icon navigate to PDF Kit
-                        }
-                    }
                 }
                 .onAppear() {
                 audioPlayer.createAudioPlayer(url: documentDirectory.appendingPathComponent(recipe.audioFullFilename))

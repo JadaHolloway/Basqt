@@ -9,7 +9,7 @@ I hereby declare on my honor and I affirm that
 
 I am hereby writing my name as my signature to declare that the above statements are true:
 
-      Micki Ross
+      Micki Ross, Jada Holloway, and Jonathan Hernandez Velasquez
 
 **********************************************************
  */
