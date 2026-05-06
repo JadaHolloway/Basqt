@@ -10,13 +10,12 @@ import SwiftUI
 import Observation
 import AVFoundation
  
-var playerOfAudio: AVAudioPlayer!
- 
 @Observable
 class AudioPlayer: NSObject, AVAudioPlayerDelegate {
-  
-    // Instance Variable
+
+    // Instance Variables
     var isPlaying = false
+    private var playerOfAudio: AVAudioPlayer?
    
     /*
      ***************************************************************************
@@ -49,7 +48,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
     func createAudioPlayer(url: URL) {
         do {
             playerOfAudio = try AVAudioPlayer(contentsOf: url)
-            playerOfAudio.prepareToPlay()
+            playerOfAudio?.prepareToPlay()
         } catch {
             print("Unable to create AVAudioPlayer from URL!")
         }
@@ -63,7 +62,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
     func createAudioPlayer(audioData: Data) {
         do {
             playerOfAudio = try AVAudioPlayer(data: audioData)
-            playerOfAudio!.prepareToPlay()
+            playerOfAudio?.prepareToPlay()
         } catch {
             print("Unable to create AVAudioPlayer from audioData!")
         }
