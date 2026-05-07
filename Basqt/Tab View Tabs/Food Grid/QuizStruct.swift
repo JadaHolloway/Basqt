@@ -2,7 +2,7 @@
 //  QuizStruct.swift
 //  Basqt
 //
-//  Created by lending on 5/5/26.
+//  Created by Osman Balci, Micki Ross, Jada Holloway, and Jonathan Hernandez Velasquez on 5/5/26.
 //
 
 import Foundation

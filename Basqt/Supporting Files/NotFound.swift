@@ -2,8 +2,8 @@
 //  NotFound.swift
 //  NationalParks
 //
-//  Created by Osman Balci on 3/24/26.
-//  Copyright © 2026 Osman Balci. All rights reserved.
+//  Created by Osman Balci, Micki Ross, Jada Holloway, and Jonathan Hernandez Velasquez on 3/24/26.
+//  Copyright © 2026 Osman Balci, Micki Ross, Jada Holloway, Jonathan Hernandez Velasquez. All rights reserved.
 //
 
 import SwiftUI
